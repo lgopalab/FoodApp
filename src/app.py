@@ -5,6 +5,9 @@ from flask import redirect
 from flask import url_for
 
 from restaurant_model import Restaurant
+from customer_model import Customer
+
+from database import db
 
 app = Flask(__name__)
 
@@ -43,6 +46,25 @@ def login():
         else:
             return render_template("user_homepage.html")
     return render_template('login.html', error=error)
+
+@app.route("/register")
+def register_page():
+	return render_template("register.html")
+	
+@app.route("/complete_registration", methods=['POST'])
+def complete_registration():
+	user_name = request.form['name']
+	email = request.form['email']
+	address = ""
+	password = request.form['password']
+	zipcode = "" # request.args.get('zipcode')
+	print email, user_name, password, address, zipcode
+	
+	record = Customer(email, user_name, password, address, zipcode)
+	db.session.add(record)
+	db.session.commit()
+	return render_template("register_success.html")
+
 
 if __name__ == "__main__":
     app.debug = True
