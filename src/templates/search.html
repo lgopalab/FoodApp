@@ -1,0 +1,29 @@
+<html>
+<h1>Search Restaurants</h1>
+<body>
+<form method="GET" action="/search_restaurants">
+  Enter here!
+  <input type="text" name="resname"/>
+  <input type="submit" value="Submit"/>
+</form>
+<br>
+
+{% if restaurants %}
+<ul>
+  <h3>Search Results.</h3>
+  {% for res in restaurants %}
+  <li>{{res}}</li>
+  {% endfor %}
+</ul>
+
+{% else %}
+  {% if res %}
+  <p color="red"> No restuarants found </p>
+  {% endif %}
+{% endif %}
+
+<br>
+<a href="/"> Home </a> <nbsp> <nbsp>
+<a href="/all_restaurants">All Restaurants</a>
+</body>
+</html>
