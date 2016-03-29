@@ -1,6 +1,7 @@
 from flask import Flask
 from flask import render_template
 from flask import request
+from restaurant_model import Restaurant
 
 app = Flask(__name__)
 
@@ -18,15 +19,19 @@ def search_page():
 
 @app.route("/search_restaurants", methods=['GET'])
 def search_restaurants():
-	filtered_restaurants = ["Bojangles",
-													"Wendy's",
-													"Thai Univerity Place",
-													"Passage to India"]
 	resname = request.args.get('resname')
-	print "I have reached the search page"
+	filtered_restaurants = Restaurant.\
+												 query.\
+												 filter(Restaurant.name.startswith(resname)).all()
 	return render_template("search.html", 
 												 restaurants=filtered_restaurants,
 												 res=True)
+
+@app.route('/all_restaurants')
+def all_restaurants():
+	filtered_restaurants = Restaurant.query.all()
+	return render_template("all_restaurants.html", 
+												 restaurants=filtered_restaurants)
 
 if __name__ == "__main__":
 	app.debug = True

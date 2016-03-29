@@ -1,0 +1,5 @@
+| Arby's           | University City Bvld |   28262 |      4 |
+| Bojangles        | Students Union, UNCC |   28262 |      4 |
+| Wendy's          | Students Union, UNCC |   28262 |      4 |
+| Passage To India | John Kirk Drive      |   28263 |      2 |
+| China Palace     | North Tryon Road     |   28273 |      5 |
