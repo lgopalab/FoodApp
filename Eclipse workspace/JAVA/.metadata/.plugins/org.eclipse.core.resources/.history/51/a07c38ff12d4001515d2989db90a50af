@@ -1,0 +1,45 @@
+<%@ page import="java.io.*,java.util.*,java.sql.*"%>
+<%@ page import="javax.servlet.http.*,javax.servlet.*" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<html>
+<head>
+<title>SELECT Operation</title>
+</head>
+<body>
+ 
+ <jsp:declaration>
+
+Statement stmt;
+Connection con;
+String url = "jdbc:mysql://localhost:3306/";
+
+</jsp:declaration>
+
+<jsp:scriptlet><![CDATA[
+
+Class.forName("com.mysql.jdbc.Driver");
+con = DriverManager.getConnection(url, "root", "123"); 
+
+stmt = con.createStatement();
+result = stmt.executeUpdate("SELECT * from TEST");
+con.close();
+
+]]></jsp:scriptlet> 
+
+ 
+<table border="1" width="100%">
+<tr>
+   <th>Sno</th>
+   <th>Name</th>
+</tr>
+<c:forEach var="row" items="${result.rows}">
+<tr>
+   <td><c:out value="${row.sno}"/></td>
+   <td><c:out value="${row.name}"/></td>
+</tr>
+</c:forEach>
+</table>
+ 
+</body>
+</html>

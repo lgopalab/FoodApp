@@ -1,0 +1,33 @@
+<%@ page import="java.io.*,java.util.*,java.sql.*"%>
+<%@ page import="javax.servlet.http.*,javax.servlet.*" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<html>
+<head>
+<title>SELECT Operation</title>
+</head>
+<body>
+<%@Connection con;
+Class.forName("com.mysql.jdbc.Driver");
+con=(Connection)DriverManager.getConnection("jdbc:mysql://localhost:3306/TEST", "root", "123");
+PreparedStatement ps=(PreparedStatement)con.prepareStatement("SELECT * from test);
+ResultSet rs=ps.executeQuery(); %>
+
+
+ 
+<table border="1" width="100%">
+<tr>
+   <th>Sno</th>
+   <th>Name</th>
+</tr>
+While(rs.next()){
+<tr>
+   <td><c:out value="rs.getString('sno')"/></td>
+   <td><c:out value="rs.getString('name')"/></td>
+</tr>
+
+}
+</table>
+ 
+</body>
+</html>

@@ -1,5 +1,5 @@
-from flask import Flask
 import flask_sqlalchemy as falc
+from flask import Flask
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = "mysql://localhost:3306/test"

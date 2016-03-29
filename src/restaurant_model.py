@@ -1,6 +1,7 @@
-from flask import Flask
-import flask_sqlalchemy as falc
 import json
+
+import flask_sqlalchemy as falc
+from flask import Flask
 
 username = ""
 passwd = ""
