@@ -1,4 +1,4 @@
-from database import db
+from util.database import db
 
 class Customer(db.Model):
 	_id = db.Column(db.Integer, primary_key=True)

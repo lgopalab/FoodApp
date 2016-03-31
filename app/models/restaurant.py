@@ -1,4 +1,4 @@
-from database import db
+from util.database import db
 
 class Restaurant(db.Model):
 	_id = db.Column(db.Integer, primary_key=True)

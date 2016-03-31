@@ -1,4 +1,5 @@
 import json
+
 import flask_sqlalchemy as falc
 from flask import Flask
 
@@ -7,7 +8,7 @@ passwd = ""
 host = ""
 db = ""
 
-with open('database.json') as props:
+with open('../../config/database.json') as props:
 	params = json.loads(props.read())['params']
 	username = params['username']
 	passwd = params['password']
