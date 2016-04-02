@@ -77,6 +77,19 @@ def complete_registration():
 	db.session.commit()
 	return render_template("register_success.html")
 
+'''
+@app.route("/add_menu", methods=['POST'])
+def add_menu_item():
+	item = request.form['myItems']
+	price = request.form['myPrices']
+	description= request.form['myDescriptions']
+	print item, price, description
+	record = Menu(item, price, description)
+	db.session.add(record)
+	db.session.commit()
+	return render_template("menu.html")
+'''
+
 
 if __name__ == "__main__":
 	app.debug = True
