@@ -80,9 +80,9 @@ def complete_registration():
 '''
 @app.route("/add_menu", methods=['POST'])
 def add_menu_item():
-	item = request.form['myItems']
-	price = request.form['myPrices']
-	description= request.form['myDescriptions']
+	item = request.form['myItems[]']
+	price = request.form['myPrices[]']
+	description= request.form['myDescriptions[]']
 	print item, price, description
 	record = Menu(item, price, description)
 	db.session.add(record)
