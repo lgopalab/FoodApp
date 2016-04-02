@@ -1,12 +1,47 @@
 <html>
-    <h1> Registration Page</h1>
+    <h1>Add Menu Items</h1>
     <body>
-        <form action="/add_menu_item" method="POST">
+        <!--<form action="/add_menu_item" method="POST">
             Item <input type="text" name="item" /> <br>
             Price <input type="email" name="email" /> <br>
             Description <input type="text" name="password" />
             <br>
             <input type="submit" value="Submit" />
-        </form>
+        </form> -->
+
+  <!--<script type=text/javascript src="{{url_for('static', filename='addItem.js') }}"></script> -->
+
+    <script type=text/javascript>
+        var counter = 1;
+        var limit = 100;
+        function addInput(divName){
+        if (counter == limit)  {
+              alert("You have reached the limit of adding " + counter + " inputs");
+         }
+         else {
+             var newdiv = document.createElement('div');
+              newdiv.innerHTML = "</br>Item<br><input type='text' name='myItems[]'></br>"
+              + "Price<br><input type='text' name='myPrices[]'></br>"
+              + "Description<br><input type='text' name='myDescription[]'></br>";
+              document.getElementById(divName).appendChild(newdiv);
+              counter++;
+         }
+         }
+    </script>
+
+    <form method="POST">
+
+         <div id="dynamicInput">
+
+             Item<br><input type='text' name='myItems[]'></br>
+             Price<br><input type='text' name='myPrices[]'></br>
+             Description<br><input type='text' name='myDescription[]'></br>
+
+
+         </div>
+
+         <input type="button" value="Add another text input" onClick="addInput('dynamicInput');">
+
+    </form>
     </body>
 </html>

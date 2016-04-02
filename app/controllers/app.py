@@ -39,6 +39,10 @@ def all_restaurants():
 	filtered_restaurants = Restaurant.query.all()
 	return render_template("all_restaurants.html", restaurants=filtered_restaurants)
 
+@app.route("/add_menu_item")
+def add_menu_item():
+	return render_template("add_menu_item.html")
+
 
 # route for handling the login page logic
 @app.route('/login', methods=['GET', 'POST'])
