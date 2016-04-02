@@ -1,0 +1,17 @@
+<html>
+<h1>Admin Restaurants page</h1>
+<body>
+ <a href="{{ url_for('addrestaurantpage') }}" >Add Restaurant</a>
+<table>
+    <form action="{{url_for('deleterestaurant')}}", method="post">
+ {% for cur in restaurants %}
+  <tr>
+      <td>{{cur.name}}</td><td>at {{cur.address}}</td>
+      <td><button type="submit" name="Delete" value="{{cur._id}}" >Delete</button></td>
+  </tr>
+{% endfor %}
+        </form>
+</table>
+</body>
+<br>
+</html>

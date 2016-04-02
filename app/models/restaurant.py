@@ -14,5 +14,5 @@ class Restaurant(db.Model):
 		self.rating = rating
 
 	def __repr__(self):
-		return "%s at %s, %s - rating: %s" % (self.name, self.address, 
+		return "%s,%s,%s,%s" % (self.name, self.address,
 																					self.zipcode, self.rating)
