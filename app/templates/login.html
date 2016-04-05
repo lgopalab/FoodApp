@@ -9,6 +9,10 @@
       <h1>Please login</h1>
       <br>
       <form action="{{url_for('login')}}" method="POST">
+        <input type="radio" name="login_type" value="customer" checked>Customer<br>
+        <input type="radio" name="login_type" value="rest_owner">Restaurant Owner<br>
+        <input type="radio" name="login_type" value="admin"> Admin <br>
+        <input type="radio" name="login_type" value="delivery"> Delivery Personnel <br>
         Username <input type="text"  name="username" > <br>
         Password <input type="password"  name="password" >
         <input class="btn btn-default" type="submit" value="Login">
