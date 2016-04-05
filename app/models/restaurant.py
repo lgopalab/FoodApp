@@ -1,4 +1,4 @@
-from util.database import db
+from app.util.database import db
 
 class Restaurant(db.Model):
 	_id = db.Column(db.Integer, primary_key=True)
@@ -14,5 +14,4 @@ class Restaurant(db.Model):
 		self.rating = rating
 
 	def __repr__(self):
-		return "%s,%s,%s,%s" % (self.name, self.address,
-																					self.zipcode, self.rating)
+		return "%s,%s,%s,%s" % (self.name, self.address,self.zipcode, self.rating)

@@ -1,0 +1,12 @@
+|1| Res1_MItem1|Res1_MItem1_Description| 5|3
+|1| Res1_MItem2|Res1_MItem2_Description| 5|3
+|1| Res1_MItem3|Res1_MItem3_Description| 4|3
+|1| Res1_MItem4|Res1_MItem4_Description| 3|3
+|2| Res2_MItem1|Res2_MItem1_Description| 5|3
+|2| Res2_MItem2|Res2_MItem2_Description| 7.2|3
+|2| Res2_MItem3|Res2_MItem3_Description| 4|3
+|2| Res2_MItem4|Res2_MItem4_Description| 6|3
+|3| Res3_MItem1|Res3_MItem1_Description| 8|5
+|3| Res3_MItem2|Res3_MItem2_Description| 9|3
+|3| Res3_MItem3|Res3_MItem3_Description| 6|4
+|3| Res3_MItem4|Res3_MItem4_Description| 4|3
