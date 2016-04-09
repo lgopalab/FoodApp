@@ -3,4 +3,4 @@ SSDI Project team #3
 
 Instructions to run the Server:
 
-./startup
+python startup.py

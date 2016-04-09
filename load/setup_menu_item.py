@@ -9,3 +9,4 @@ with open('../data/sample_menu_item.txt') as f:
 	for record in records:
 		db.session.add(Menu_item(int(record[0]), record[1], record[2], float(record[3]),int(record[4])))
 	db.session.commit()
+	

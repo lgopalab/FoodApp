@@ -1,12 +1,11 @@
-<html>
+{%  extends "layout.html" %}
 <h1> Registration Page</h1>
-<body>
-<form action="/complete_registration" method="POST">
-Name <input type="text" name="name" /> <br>
-Email Address <input type="email" name="email" /> <br>
-Password <input type="password" name="password" /> <br>
-Confirm Password <input type="password" name="cpassword" /> <br>
-<input type="submit" value="Submit" />
-</form>
-</body>
-</html>
+{% block content%}
+    <form action="/complete_registration" method="POST">
+    Name <input type="text" name="name" /> <br>
+    Email Address <input type="email" name="email" /> <br>
+    Password <input type="password" name="password" /> <br>
+    Confirm Password <input type="password" name="cpassword" /> <br>
+    <input type="submit" value="Submit" />
+    </form>
+{% endblock %}

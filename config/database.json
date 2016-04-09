@@ -2,7 +2,7 @@
    "params" : {
        "host": "localhost:3306",
        "username": "root",
-       "password": "123",
+       "password": "dino",
        "db": "test2"
    }
 }

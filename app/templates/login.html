@@ -1,22 +1,26 @@
-<html>
-  <head>
-    <title>Flask Intro - login page</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!--<link href="static/bootstrap.min.css" rel="stylesheet" media="screen">-->
-  </head>
-  <body>
-    <div class="container">
-      <h1>Please login</h1>
-      <br>
-      <form action="{{url_for('login')}}" method="POST">
-        <input type="radio" name="login_type" value="customer" checked>Customer<br>
-        <input type="radio" name="login_type" value="rest_owner">Restaurant Owner<br>
-        <input type="radio" name="login_type" value="admin"> Admin <br>
-        <input type="radio" name="login_type" value="delivery"> Delivery Personnel <br>
-        Username <input type="text"  name="username" > <br>
-        Password <input type="password"  name="password" >
+{% extends "layout.html" %}
+{% block content %}
+        <form action="{{ url_for('login') }}" method="POST">
+        <p><input type="radio" name="login_type" value="customer" id="1" checked/>
+            <label for="1">Customer</label></p>
+        <p><input type="radio" name="login_type" value="rest_owner" id="2"/>
+            <label for="2">Restaurant Owner</label></p>
+        <p><input type="radio" name="login_type" value="admin" id="3"/>
+            <label for="3">Admin</label></p>
+        <p><input type="radio" name="login_type" value="delivery" id="4"/>
+            <label for="4">Delivery Personnel</label></p>
+
+
+        Username <input type="text" name="username"> <br>
+        Password <input type="password" name="password">
         <input class="btn btn-default" type="submit" value="Login">
-      </form>
-    </div>
-  </body>
-</html>
+    </form>
+{% endblock %}
+<!--
+<html>
+<h2>Login</h2>
+<body>
+<div class="container">
+</div>
+</body>
+</html> -->
