@@ -1,26 +1,33 @@
 {% extends "layout.html" %}
+<style>
+#middle {
+    top: 50%;
+    margin-left: 50%;
+}
+</style>
 {% block content %}
-        <form action="{{ url_for('login') }}" method="POST">
-        <p><input type="radio" name="login_type" value="customer" id="1" checked/>
-            <label for="1">Customer</label></p>
-        <p><input type="radio" name="login_type" value="rest_owner" id="2"/>
-            <label for="2">Restaurant Owner</label></p>
-        <p><input type="radio" name="login_type" value="admin" id="3"/>
-            <label for="3">Admin</label></p>
-        <p><input type="radio" name="login_type" value="delivery" id="4"/>
-            <label for="4">Delivery Personnel</label></p>
+    <div class="row" id="middle">
+        <div class="col s12 m6">
+            <div class="card light-blue-text darken-1">
+                <form action="{{ url_for('login') }}" method="POST">
+                    <p><input type="radio" name="login_type" value="customer" id="1" checked/>
+                        <label for="1">Customer</label></p>
+                    <p><input type="radio" name="login_type" value="rest_owner" id="2"/>
+                        <label for="2">Restaurant Owner</label></p>
+                    <p><input type="radio" name="login_type" value="admin" id="3"/>
+                        <label for="3">Admin</label></p>
+                    <p><input type="radio" name="login_type" value="delivery" id="4"/>
+                        <label for="4">Delivery Personnel</label></p>
 
+                    Username <input type="text" name="username"> <br>
+                    Password <input type="password" name="password">
+                    <div class="card-action">
+                        <input class="btn btn-default" type="submit" value="Login">
+                        <a href="{{ url_for('register_page') }}">Register</a>
+                    </div>
 
-        Username <input type="text" name="username"> <br>
-        Password <input type="password" name="password">
-        <input class="btn btn-default" type="submit" value="Login">
-    </form>
+                </form>
+            </div>
+        </div>
+    </div>
 {% endblock %}
-<!--
-<html>
-<h2>Login</h2>
-<body>
-<div class="container">
-</div>
-</body>
-</html> -->

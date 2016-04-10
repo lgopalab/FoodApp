@@ -114,6 +114,10 @@ def complete_registration():
 	db.session.commit()
 	return render_template("register_success.html")
 
+@app.route("/logout")
+def logout_user():
+	return render_template("logout.html")
+
 
 '''
 @app.route("/add_menu", methods=['POST'])
