@@ -1,7 +1,7 @@
 import os
 import sys
 
-from flask import Flask, flash
+from flask import Flask, flash, url_for
 from flask import render_template
 from flask import request
 
@@ -128,6 +128,23 @@ def complete_registration():
 def logout_user():
 	return render_template("logout.html")
 
+def has_no_empty_params(rule):
+    defaults = rule.defaults if rule.defaults is not None else ()
+    arguments = rule.arguments if rule.arguments is not None else ()
+    return len(defaults) >= len(arguments)
+
+
+@app.route("/site-map")
+def site_map():
+    links = []
+    for rule in app.url_map.iter_rules():
+        # Filter out rules we can't navigate to in a browser
+        # and rules that require parameters
+        if "GET" in rule.methods and has_no_empty_params(rule):
+            url = url_for(rule.endpoint, **(rule.defaults or {}))
+            links.append((url, rule.endpoint))
+    return render_template("sitemap.html", urls=links)
+    # links is now a list of url, endpoint tuples
 
 '''
 @app.route("/add_menu", methods=['POST'])

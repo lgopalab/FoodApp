@@ -1,0 +1,11 @@
+{% extends "layout.html" %}
+<style>
+    p {
+        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    }
+</style>
+{% block content %}
+    {% for url in urls %}
+        <p style="font-family: Helvetica Neue, Helvetica, Arial, sans-serif;font-weight: bold; font-size: 12px">{{ url }}</p>
+    {% endfor %}
+{% endblock %}
