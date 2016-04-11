@@ -97,8 +97,18 @@ def login():
 
 
 @app.route("/register")
-def register_page():
+def register():
 	return render_template("register.html")
+
+@app.route("/register_form", methods=['POST'])
+def register_form():
+	reg_type = request.form['reg_type']
+	if reg_type == "customer":
+		return render_template("register_customer.html")
+	elif reg_type == "rest_owner":
+		return render_template("register_res_owner.html")
+	else:
+		return render_template("register_del_boy.html")
 
 
 @app.route("/complete_registration", methods=['POST'])
