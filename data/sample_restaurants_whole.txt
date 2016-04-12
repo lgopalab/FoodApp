@@ -1,0 +1,5 @@
+joe@arby.com            | Arby's           |Joe Brad    |joe    | University City Bvld |   28262 |      4 |
+boe@bojangles.com       | Bojangles        |Boe Jared   |boe    | Students Union, UNCC |   28262 |      4 |
+jedai@wendys.com        | Wendy's          |Sith Jedai  |jedai  | Students Union, UNCC |   28262 |      4 |
+kumar@passagetoindia.com| Passage To India |Bharat Kumar|kumar  | John Kirk Drive      |   28263 |      2 |
+ching@chinapalace.com   | China Palace     |Jian Ching  |ching  | North Tryon Road     |   28273 |      5 |
