@@ -1,5 +1,5 @@
 <html>
-<h1>Admin Restaurants page</h1>
+<h1>Edit Menu Page</h1>
 <body>
  <a href="{{ url_for('addrestaurantpage') }}" >Add Restaurant</a>
 <table>
@@ -7,7 +7,7 @@
  {% for cur in restaurants %}
   <tr>
       <td>{{cur.name}}</td><td>at {{cur.address}}</td>
-      <td><button type="submit" name="Delete" value="{{cur._id}}" >Delete</button></td>
+      <td><button type="submit" name="Delete" value="{{cur._id}}" onclick="return confirm('Are you sure you want to delete the Restaurant')" >Delete</button></td>
   </tr>
 {% endfor %}
         </form>

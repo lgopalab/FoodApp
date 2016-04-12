@@ -1,4 +1,4 @@
-from app.util.database import db
+from util.database import db
 
 class Menu_item(db.Model):
 	_id = db.Column(db.Integer, primary_key=True)

@@ -1,4 +1,4 @@
-from app.util.database import db
+from util.database import db
 
 
 class Restaurant_Owner(db.Model):

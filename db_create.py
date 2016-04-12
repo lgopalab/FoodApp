@@ -11,7 +11,7 @@ sys.path.append(dir_name3)
 sys.path.append(dir_name4)
 print sys.path
 
-import load.setup_restaurants_whole as a
+import app.models.customer as a
 
 if __name__ == "__main__":
   a.main()

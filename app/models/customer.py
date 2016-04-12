@@ -1,4 +1,4 @@
-from app.util.database import db
+from util.database import db
 
 
 class Customer(db.Model):
@@ -9,7 +9,7 @@ class Customer(db.Model):
     address = db.Column(db.String(30))
     zipcode = db.Column(db.Integer)
 
-    def __init__(self, email, name, password, address, zipcode, orders):
+    def __init__(self, email, name, password, address, zipcode):
         self.email = email
         self.name = name
         self.password = password
