@@ -3,7 +3,7 @@ from util.database import db
 
 class Customer(db.Model):
     _id = db.Column(db.Integer, primary_key=True)
-    email = db.Column(db.String(20))
+    email = db.Column(db.String(40))
     name = db.Column(db.String(20))
     password = db.Column(db.String(20))
     address = db.Column(db.String(30))

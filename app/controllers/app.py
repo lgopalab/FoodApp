@@ -1,6 +1,7 @@
 import os
 import sys
 import random
+import time
 
 from flask import Flask, flash, url_for, session
 from flask import render_template
@@ -20,7 +21,8 @@ app = Flask(__name__, template_folder='../templates', static_folder='../../publi
 app.secret_key = 'some_secret'
 
 
-@app.route('/')
+@app.route("/")
+@app.route("/home")
 def home():
     print "home page"
     return render_template("home.html")
@@ -177,7 +179,7 @@ def register_form():
 def complete_registration():
     user_name = request.form['name']
     email = request.form['email']
-    address = ""
+    address = " "
     password = request.form['password']
     zipcode = 0
     print email, user_name, password, address, zipcode
@@ -185,6 +187,7 @@ def complete_registration():
     db.session.add(record)
     db.session.commit()
     return render_template("register_success.html")
+
 
 @app.route("/logout")
 def logout_user():

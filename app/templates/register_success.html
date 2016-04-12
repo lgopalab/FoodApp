@@ -1,4 +1,13 @@
 {% extends "layout.html" %}
 {% block content %}
+
+<script>
+function myFunction() {
+    window.location = "home";
+}
+</script>
+<body onload="setTimeout(myFunction, 3000)">
     <h3>Registered Successfully.</h3>
+    <h5>Please wait while you page is being redirected.</h5>
+</body>
 {% endblock %}
