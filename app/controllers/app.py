@@ -2,7 +2,7 @@ import os
 import sys
 import random
 
-from flask import Flask, flash, url_for
+from flask import Flask, flash, url_for, session
 from flask import render_template
 from flask import request
 from random import randint
@@ -10,7 +10,7 @@ from random import randint
 app_dir = os.path.abspath("..")
 sys.path.insert(0, app_dir)
 
-from models.restaurant import Restaurant
+from models.restaurant_whole import Restaurant_whole
 from models.customer import Customer
 from models.menu_item import Menu_item
 
@@ -34,30 +34,30 @@ def search_page():
 @app.route("/search_restaurants", methods=['GET'])
 def search_restaurants():
     resname = request.args.get('resname')
-    filtered_restaurants = Restaurant.query.filter(Restaurant.name.startswith(resname)).all()
+    filtered_restaurants = Restaurant_whole.query.filter(Restaurant.name.startswith(resname)).all()
     return render_template("search.html", restaurants=filtered_restaurants, res=True)
 
 
 @app.route('/all_restaurants')
 def all_restaurants():
-    filtered_restaurants = Restaurant.query.all()
+    filtered_restaurants = Restaurant_whole.query.all()
     return render_template("all_restaurants.html", restaurants=filtered_restaurants)
 
 
 @app.route('/adminrestaurantpage')
 def adminrestaurantpage():
-    filtered_restaurants_admin = Restaurant.query.all()
+    filtered_restaurants_admin = Restaurant_whole.query.all()
     return render_template("adminrestaurant.html", restaurants=filtered_restaurants_admin)
 
 
 @app.route('/deleterestaurant', methods=['POST'])
 def deleterestaurant():
     id = request.form['Delete']
-    record = Restaurant.query.filter_by(_id=id).all()
+    record = Restaurant_whole.query.filter_by(_id=id).all()
     for rec in record:
         db.session.delete(rec)
         db.session.commit()
-    filtered_restaurants_admin = Restaurant.query.all()
+    filtered_restaurants_admin = Restaurant_whole.query.all()
     return render_template("adminrestaurant.html", restaurants=filtered_restaurants_admin)
 
 
@@ -68,14 +68,17 @@ def addrestaurantpage():
 
 @app.route('/addrestaurant', methods=['POST'])
 def addrestaurant():
-    name = request.form['inputName']
+    rest_name = request.form['inputRestName']
+    owner_name = request.form['inputOwnerName']
+    email = request.form['email']
+    password = request.form['password']
     address = request.form['inputAddress']
     zipcode = request.form['inputZIP']
     rating = request.form['inputRating']
-    record = Restaurant(name, address, zipcode, rating)
+    record = Restaurant_whole(email, rest_name, owner_name, password, address, zipcode, rating)
     db.session.add(record)
     db.session.commit()
-    filtered_restaurants_admin = Restaurant.query.all()
+    filtered_restaurants_admin = Restaurant_whole.query.all()
     return render_template("adminrestaurant.html", restaurants=filtered_restaurants_admin)
 
 
@@ -127,11 +130,31 @@ def login():
     if request.method == 'POST':
         uname = request.form['username']
         password = request.form['password']
-        pass_real = Customer.query.filter(Customer.name == uname).first()
-        if pass_real == password:
-            error = 'Invalid Username/Password.'
-        else:
-            return render_template("user_homepage.html", user=uname)
+        user_type = request.form['login_type']
+        if user_type == "customer":
+            pass_real = Customer.query.filter(Customer.name == uname).first()
+            if pass_real == password:
+                error = 'Invalid Username/Password.'
+            else:
+                return render_template("user_homepage.html", user=uname)
+        elif user_type == "rest_owner":
+            pass_real = Restaurant_whole.query.filter(Customer.name == uname).first()
+            if pass_real == password:
+                error = 'Invalid Username/Password.'
+            else:
+                return render_template("user_homepage.html", user=uname)
+        elif user_type == "admin":
+            pass_real = Customer.query.filter(Customer.name == uname).first()
+            if pass_real == password:
+                error = 'Invalid Username/Password.'
+            else:
+                return render_template("user_homepage.html", user=uname)
+        elif user_type == "delivery":
+            pass_real = Customer.query.filter(Customer.name == uname).first()
+            if pass_real == password:
+                error = 'Invalid Username/Password.'
+            else:
+                return render_template("user_homepage.html", user=uname)
     return render_template('login.html', error=error)
 
 
