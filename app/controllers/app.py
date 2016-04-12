@@ -12,6 +12,7 @@ app_dir = os.path.abspath("..")
 sys.path.insert(0, app_dir)
 
 from models.restaurant_whole import Restaurant_whole
+from models.admin import Admin
 from models.customer import Customer
 from models.menu_item import Menu_item
 
@@ -162,17 +163,17 @@ def login():
             else:
                 return render_template("restaurant_owner_homepage.html", user=email)
         elif user_type == "admin":
-            pass_real = Customer.query.filter(Customer.name == uname).first()
+            pass_real = Admin.query.filter(Admin.email == email).first()
             if pass_real == password:
                 error = 'Invalid Username/Password.'
             else:
-                return render_template("user_homepage.html", user=uname)
+                return render_template("admin_homepage.html", user=email)
         elif user_type == "delivery":
-            pass_real = Customer.query.filter(Customer.name == uname).first()
+            pass_real = Customer.query.filter(Customer.name == email).first()
             if pass_real == password:
                 error = 'Invalid Username/Password.'
             else:
-                return render_template("user_homepage.html", user=uname)
+                return render_template("user_homepage.html", user=email)
     return render_template('login.html', error=error)
 
 
@@ -204,6 +205,19 @@ def complete_registration():
     db.session.commit()
     return render_template("register_success.html")
 
+@app.route("/complete_rest_owner_registration", methods=['POST'])
+def complete_rest_owner_registration():
+    owner_name = request.form['owner_name']
+    rest_name = request.form['rest_name']
+    email = request.form['email']
+    address = request.form['address']
+    zipcode = request.form['zipcode']
+    password = request.form['password']
+    rating = random.randint(0,5)
+    record = Restaurant_whole(email, rest_name, owner_name, password, address, zipcode, rating)
+    db.session.add(record)
+    db.session.commit()
+    return render_template("register_success.html")
 
 @app.route("/logout")
 def logout_user():

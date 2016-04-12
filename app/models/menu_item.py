@@ -17,3 +17,4 @@ class Menu_item(db.Model):
 
 	def __repr__(self):
 		return "%s,%s,%s,%s" % (self.res_id, self.name, self.description, self.cost, self.rating)
+

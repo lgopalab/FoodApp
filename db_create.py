@@ -11,7 +11,8 @@ sys.path.append(dir_name3)
 sys.path.append(dir_name4)
 print sys.path
 
-import app.models.customer as a
+import app.models.admin as a
+import load.setup_admin as b
 
 if __name__ == "__main__":
-  a.main()
+  b.main()
