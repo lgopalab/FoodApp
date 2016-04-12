@@ -21,4 +21,4 @@ class Restaurant_whole(db.Model):
         self.rating = rating
 
     def __repr__(self):
-        return "name:%s, mail:%s" % (self.name, self.email)
+        return "%s %s" % (self.rest_name, self.email)

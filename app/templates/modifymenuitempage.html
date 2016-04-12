@@ -1,0 +1,26 @@
+{% extends "layout.html" %}
+<style>
+#middle {
+    top: 50%;
+    margin-left: 50%;
+}
+</style>
+{% block content %}
+<head>
+    <meta charset="UTF-8">
+    <title>Add restaurant</title>
+</head>
+{% for record in record %}
+<form action="{{ url_for('updatemenuitem') }}" method=post>
+        <label for="inputName">Name</label>
+        <input type="name" name="inputName" id="inputName" value="{{record.name}}"required autofocus>
+        <label for="description">Description</label>
+        <input type="Description" name="description" id="description" value="{{record.description}} "required autofocus>
+        <label for="cost">Cost</label>
+        <input type="Cost" name="cost" id="cost" value="{{record.cost}}" required>
+        <input type="hidden" name="rest_id" value="{{record.res_id}}">
+        <input type="hidden" name="menu_id" value="{{record._id}}">
+
+     <input type="submit" class="btn btn-default" value="Submit">
+{%endfor%}
+{% endblock %}

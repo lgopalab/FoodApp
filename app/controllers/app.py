@@ -36,7 +36,7 @@ def search_page():
 @app.route("/search_restaurants", methods=['GET'])
 def search_restaurants():
     resname = request.args.get('resname')
-    filtered_restaurants = Restaurant_whole.query.filter(Restaurant.name.startswith(resname)).all()
+    filtered_restaurants = Restaurant_whole.query.filter(Restaurant_whole.rest_name.startswith(resname)).all()
     return render_template("search.html", restaurants=filtered_restaurants, res=True)
 
 
@@ -84,10 +84,10 @@ def addrestaurant():
     return render_template("adminrestaurant.html", restaurants=filtered_restaurants_admin)
 
 
-@app.route('/modifymenuitem')
-def modifymenuitem():
+@app.route('/modifymenu')
+def modifymenu():
     filtered_menu = Menu_item.query.all()
-    return render_template("editmenuitempage.html", menu=filtered_menu)
+    return render_template("editmenupage.html", menu=filtered_menu)
 
 @app.route('/addmenuitem', methods=['POST'])
 def addmenuitem():
@@ -99,10 +99,24 @@ def addmenuitem():
     record = Menu_item(res_id, name, description, float(cost), rating)
     db.session.add(record)
     db.session.commit()
-    db.session.close()
     filtered_menu = Menu_item.query.all()
-    return render_template("editmenuitempage.html", menu=filtered_menu)
+    return render_template("editmenupage.html", menu=filtered_menu)
 
+@app.route('/updatemenuitem', methods=['POST'])
+def updatemenuitem():
+    name = request.form['inputName']
+    res_id = request.form['rest_id']
+    menu_id = request.form['menu_id']
+    description = request.form['description']
+    cost = request.form['cost']
+    print res_id, menu_id
+    record = Menu_item.query.filter(Menu_item.res_id==res_id and Menu_item._id==menu_id).first()
+    record.name = name
+    record.description = description
+    record.cost = cost
+    db.session.commit()
+    filtered_menu = Menu_item.query.all()
+    return render_template("editmenupage.html", menu=filtered_menu)
 
 @app.route('/addmenuitempage')
 def addmenuitempage():
@@ -113,8 +127,10 @@ def deletemenuitem():
     modify_id = request.form['Modify'].split('_')
     record = []
     print modify_id[1]
-    if modify_id[0]=="delete":
+    if modify_id[0]=="modify":
         record = Menu_item.query.filter_by(_id=modify_id[1]).all()
+        return render_template("modifymenuitempage.html",record=record)
+
     else:
         record = Menu_item.query.filter_by(_id=modify_id[1]).all()
     for rec in record:
@@ -122,7 +138,7 @@ def deletemenuitem():
         db.session.commit()
         db.session.close()
     filtered_menu = Menu_item.query.all()
-    return render_template("editmenuitempage.html", menu=filtered_menu)
+    return render_template("editmenupage.html", menu=filtered_menu)
 
 
 # route for handling the login page logic
@@ -144,7 +160,7 @@ def login():
             if pass_real == password:
                 error = 'Invalid Username/Password.'
             else:
-                return render_template("user_homepage.html", user=email)
+                return render_template("restaurant_owner_homepage.html", user=email)
         elif user_type == "admin":
             pass_real = Customer.query.filter(Customer.name == uname).first()
             if pass_real == password:
