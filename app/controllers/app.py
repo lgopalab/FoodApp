@@ -128,21 +128,21 @@ def deletemenuitem():
 def login():
     error = None
     if request.method == 'POST':
-        uname = request.form['username']
+        email = request.form['email']
         password = request.form['password']
         user_type = request.form['login_type']
         if user_type == "customer":
-            pass_real = Customer.query.filter(Customer.name == uname).first()
+            pass_real = Customer.query.filter(Customer.email == email).first()
             if pass_real == password:
                 error = 'Invalid Username/Password.'
             else:
-                return render_template("user_homepage.html", user=uname)
+                return render_template("user_homepage.html", user=email)
         elif user_type == "rest_owner":
-            pass_real = Restaurant_whole.query.filter(Customer.name == uname).first()
+            pass_real = Restaurant_whole.query.filter(Restaurant_whole.email == email).first()
             if pass_real == password:
                 error = 'Invalid Username/Password.'
             else:
-                return render_template("user_homepage.html", user=uname)
+                return render_template("user_homepage.html", user=email)
         elif user_type == "admin":
             pass_real = Customer.query.filter(Customer.name == uname).first()
             if pass_real == password:
