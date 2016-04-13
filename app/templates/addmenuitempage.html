@@ -13,11 +13,11 @@
 
 <form action="{{ url_for('addmenuitem') }}" method=post>
         <label for="inputName">Name</label>
-        <input type="name" name="inputName" id="inputName"required autofocus>
+        <input type="text" name="inputName" id="inputName"required autofocus>
         <label for="description">Description</label>
-        <input type="Description" name="description" id="description"required autofocus>
+        <input type="text" name="description" id="description"required autofocus>
         <label for="cost">Cost</label>
-        <input type="Cost" name="cost" id="cost" required>
+        <input type="number" name="cost" id="cost" required>
 
         <input type="submit" class="btn btn-default" value="Submit">
 {% endblock %}

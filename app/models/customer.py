@@ -17,4 +17,4 @@ class Customer(db.Model):
         self.zipcode = zipcode
 
     def __repr__(self):
-        return "name:%s, mail:%s" % (self.name.self.email)
+        return "name:%s, mail:%s" % (self.name,self.email)
