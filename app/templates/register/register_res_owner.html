@@ -4,15 +4,16 @@
 {% block content %}
     <div class="row" id="middle">
         <div class="col s12 m6">
+            {% if error  %}<p class=error><strong>Error:</strong> {{ error }}{% endif %}
             <div class="card waves-yellow darken-1">
-                <form action="/complete_rest_owner_registration" method="POST">
+                <form action="/complete_registration" method="POST">
                     Restaurant Name<input type="text" name="rest_name"/> <br>
-                    Email Address <input type="email" name="email"/> <br>
+                    Email Address <input type="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" name="email"/> <br>
                     Owner Name <input type="text" name="owner_name" /> <br>
                     Restaurant Address <input type="text" name="address" /> <br>
-                    Restaurant Zipcode <input type="text" name="zipcode" /> <br>
+                    Restaurant Zipcode <input type="number" min="10000" max="99999" name="zipcode" /> <br>
                     Password <input type="password" name="password"/> <br>
-
+                    <input type="hidden" name="user_type" value="rest_owner">
                     <input type="submit" value="Submit"/>
                 </form>
             </div>

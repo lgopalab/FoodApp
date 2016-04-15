@@ -21,7 +21,7 @@ from util.database import db
 app = Flask(__name__, template_folder='../templates', static_folder='../../public')
 app.secret_key = 'some_secret'
 
-from tests.all_tests import Tests
+#from tests.all_tests import Tests
 
 
 @app.route("/")
@@ -223,42 +223,45 @@ def register():
 
 @app.route("/register_form", methods=['POST'])
 def register_form():
-    reg_type = request.form['reg_type']
-    if reg_type == "customer":
-        return render_template("register/register_customer.html")
-    elif reg_type == "rest_owner":
-        return render_template("register/register_res_owner.html")
+    error = None
+    user_type = request.form['user_type']
+    if user_type == "customer":
+        return render_template("register/register_customer.html",error=error)
     else:
-        return render_template("register/register_del_boy.html")
+        return render_template("register/register_res_owner.html",error=error)
 
 
 @app.route("/complete_registration", methods=['POST'])
 def complete_registration():
-    user_name = request.form['name']
-    email = request.form['email']
-    address = " "
-    password = request.form['password']
-    zipcode = 0
-    print email, user_name, password, address, zipcode
-    record = Customer(email, user_name, password, address, zipcode)
-    db.session.add(record)
-    db.session.commit()
-    return render_template("register/register_success.html")
-
-
-@app.route("/complete_rest_owner_registration", methods=['POST'])
-def complete_rest_owner_registration():
-    owner_name = request.form['owner_name']
-    rest_name = request.form['rest_name']
-    email = request.form['email']
-    address = request.form['address']
-    zipcode = request.form['zipcode']
-    password = request.form['password']
-    rating = random.randint(0, 5)
-    record = Restaurant_whole(email, rest_name, owner_name, password, address, zipcode, rating)
-    db.session.add(record)
-    db.session.commit()
-    return render_template("register/register_success.html")
+    error = None
+    user_type = request.form['user_type']
+    if user_type == "customer":
+        name = request.form['name']
+        email = request.form['email']
+        address = " "
+        password = request.form['password']
+        cpassword = request.form['cpassword']
+        zipcode = 0
+        if password == cpassword:
+            record = Customer(email, user_name, password, address, zipcode)
+            db.session.add(record)
+            db.session.commit()
+            return render_template("register/register_success.html")
+        else:
+            error = "Password Doesn't match. Enter the values again"
+            return render_template("register/register_customer.html", error=error)
+    else:
+        owner_name = request.form['owner_name']
+        rest_name = request.form['rest_name']
+        email = request.form['email']
+        address = request.form['address']
+        zipcode = request.form['zipcode']
+        password = request.form['password']
+        rating = random.randint(0, 5)
+        record = Restaurant_whole(email, rest_name, owner_name, password, address, zipcode, rating)
+        db.session.add(record)
+        db.session.commit()
+        return render_template("register/register_success.html", error=error)
 
 
 @app.route("/logout")
@@ -338,6 +341,6 @@ ching@chinapalace.com   | China Palace     |Jian Ching  |ching  | North Tryon Ro
 
 
 def main():
-	Tests.run_all()
+	#Tests.run_all()
 	app.debug = True
 	app.run(host='127.0.0.1')
