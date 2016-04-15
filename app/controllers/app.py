@@ -21,6 +21,8 @@ from util.database import db
 app = Flask(__name__, template_folder='../templates', static_folder='../../public')
 app.secret_key = 'some_secret'
 
+from tests.all_tests import Tests
+
 
 @app.route("/")
 @app.route("/home")
@@ -31,26 +33,26 @@ def home():
 
 @app.route("/search")
 def search_page():
-    return render_template("search.html", restaurants=[], res=False)
+    return render_template("search/search.html", restaurants=[], res=False)
 
 
 @app.route("/search_restaurants", methods=['GET'])
 def search_restaurants():
     resname = request.args.get('resname')
     filtered_restaurants = Restaurant_whole.query.filter(Restaurant_whole.rest_name.startswith(resname)).all()
-    return render_template("search.html", restaurants=filtered_restaurants, res=True)
+    return render_template("search/search.html", restaurants=filtered_restaurants, res=True)
 
 
 @app.route('/all_restaurants')
 def all_restaurants():
     filtered_restaurants = Restaurant_whole.query.all()
-    return render_template("all_restaurants.html", restaurants=filtered_restaurants)
+    return render_template("search/all_restaurants.html", restaurants=filtered_restaurants)
 
 
 @app.route('/adminrestaurantpage')
 def adminrestaurantpage():
     filtered_restaurants_admin = Restaurant_whole.query.all()
-    return render_template("adminrestaurant.html", restaurants=filtered_restaurants_admin)
+    return render_template("admin/adminrestaurant.html", restaurants=filtered_restaurants_admin)
 
 
 @app.route('/deleterestaurant', methods=['POST'])
@@ -61,12 +63,12 @@ def deleterestaurant():
         db.session.delete(rec)
         db.session.commit()
     filtered_restaurants_admin = Restaurant_whole.query.all()
-    return render_template("adminrestaurant.html", restaurants=filtered_restaurants_admin)
+    return render_template("admin/adminrestaurant.html", restaurants=filtered_restaurants_admin)
 
 
 @app.route('/addrestaurantpage')
 def addrestaurantpage():
-    return render_template("addrestaurantpage.html")
+    return render_template("admin/addrestaurantpage.html")
 
 
 @app.route('/addrestaurant', methods=['POST'])
@@ -82,14 +84,14 @@ def addrestaurant():
     db.session.add(record)
     db.session.commit()
     filtered_restaurants_admin = Restaurant_whole.query.all()
-    return render_template("adminrestaurant.html", restaurants=filtered_restaurants_admin)
+    return render_template("admin/adminrestaurant.html", restaurants=filtered_restaurants_admin)
 
 
 @app.route('/modifymenu')
 def modifymenu():
     print session['rest_id']
     filtered_menu = Menu_item.query.filter_by(_id=session['rest_id']).all()
-    return render_template("editmenupage.html", menu=filtered_menu)
+    return render_template("res_owner/editmenupage.html", menu=filtered_menu)
 
 
 @app.route('/addmenuitem', methods=['POST'])
@@ -103,7 +105,7 @@ def addmenuitem():
     db.session.add(record)
     db.session.commit()
     filtered_menu = Menu_item.query.filter_by(res_id=rest_id).all()
-    return render_template("editmenupage.html", menu=filtered_menu)
+    return render_template("res_owner/editmenupage.html", menu=filtered_menu)
 
 
 @app.route('/updatemenuitem', methods=['POST'])
@@ -120,12 +122,12 @@ def updatemenuitem():
     record.cost = cost
     db.session.commit()
     filtered_menu = Menu_item.query.filter_by(res_id=res_id).all()
-    return render_template("editmenupage.html", menu=filtered_menu)
+    return render_template("res_owner/editmenupage.html", menu=filtered_menu)
 
 
 @app.route('/addmenuitempage')
 def addmenuitempage():
-    return render_template("addmenuitempage.html")
+    return render_template("res_owner/addmenuitempage.html")
 
 
 @app.route('/deletemenuitem', methods=['POST'])
@@ -135,7 +137,7 @@ def deletemenuitem():
     print modify_id[1]
     if modify_id[0] == "modify":
         record = Menu_item.query.filter_by(_id=modify_id[1]).all()
-        return render_template("modifymenuitempage.html", record=record)
+        return render_template("res_owner/modifymenuitempage.html", record=record)
 
     else:
         record = Menu_item.query.filter_by(_id=modify_id[1]).all()
@@ -144,7 +146,7 @@ def deletemenuitem():
         db.session.commit()
         db.session.close()
     filtered_menu = Menu_item.query.filter_by(res_id=session['rest_id']).all()
-    return render_template("editmenupage.html", menu=filtered_menu)
+    return render_template("res_owner/editmenupage.html", menu=filtered_menu)
 
 
 # route for handling the login page logic
@@ -166,7 +168,7 @@ def login():
                         session['logged_in'] = True
                         session['user_type'] = user_type
                         session['user_id'] = pass_real._id
-                        return render_template("user_homepage.html", user=pass_real.name)
+                        return render_template("user/user_homepage.html", user=pass_real.name)
                     else:
                         error = 'Invalid Username/Password.'
                 elif user_type == "rest_owner":  # Restaurant owner login validation
@@ -177,7 +179,7 @@ def login():
                         session['logged_in'] = True
                         session['user_type'] = user_type
                         session['rest_id'] = pass_real._id
-                        return render_template("restaurant_owner_homepage.html", user=pass_real.owner_name)
+                        return render_template("res_owner/restaurant_owner_homepage.html", user=pass_real.owner_name)
                     else:
                         error = 'Invalid Username/Password.'
                 else:  # Admin Validation
@@ -188,46 +190,46 @@ def login():
                         session['logged_in'] = True
                         session['user_type'] = user_type
                         session['admin_id'] = pass_real._id
-                        return render_template("admin_homepage.html", user=email)
+                        return render_template("admin/admin_homepage.html", user=email)
                     else:
                         error = 'Invalid Username/Password.'
-                return render_template("login.html", error=error)
+                return render_template("login/login.html", error=error)
             else:
                 error="Both E-mail and Password are required."
-                return render_template("login.html", error=error)
+                return render_template("login/login.html", error=error)
         else:
             print "in Else condition"
-            return render_template("login.html", error=error)
+            return render_template("login/login.html", error=error)
     else:
         if session['user_type'] == "customer":
             user_id = int(session['user_id'])
             record = Customer.query.filter_by(_id=user_id).first()
-            return render_template("user_homepage.html", user=record.name)
+            return render_template("user/user_homepage.html", user=record.name)
         elif session['user_type'] == "rest_owner":
             rest_id = int(session['rest_id'])
             record = Restaurant_whole.query.filter_by(_id=rest_id).first()
             print record
-            return render_template("restaurant_owner_homepage.html", user=record.owner_name)
+            return render_template("res_owner/restaurant_owner_homepage.html", user=record.owner_name)
         else:
             admin_id = int(session['admin_id'])
             record = Admin.query.filter_by(_id=admin_id).first()
-            return render_template("admin_homepage.html", user=record.email)
+            return render_template("admin/admin_homepage.html", user=record.email)
 
 
 @app.route("/register")
 def register():
-    return render_template("register.html")
+    return render_template("register/register.html")
 
 
 @app.route("/register_form", methods=['POST'])
 def register_form():
     reg_type = request.form['reg_type']
     if reg_type == "customer":
-        return render_template("register_customer.html")
+        return render_template("register/register_customer.html")
     elif reg_type == "rest_owner":
-        return render_template("register_res_owner.html")
+        return render_template("register/register_res_owner.html")
     else:
-        return render_template("register_del_boy.html")
+        return render_template("register/register_del_boy.html")
 
 
 @app.route("/complete_registration", methods=['POST'])
@@ -241,7 +243,7 @@ def complete_registration():
     record = Customer(email, user_name, password, address, zipcode)
     db.session.add(record)
     db.session.commit()
-    return render_template("register_success.html")
+    return render_template("register/register_success.html")
 
 
 @app.route("/complete_rest_owner_registration", methods=['POST'])
@@ -256,13 +258,13 @@ def complete_rest_owner_registration():
     record = Restaurant_whole(email, rest_name, owner_name, password, address, zipcode, rating)
     db.session.add(record)
     db.session.commit()
-    return render_template("register_success.html")
+    return render_template("register/register_success.html")
 
 
 @app.route("/logout")
 def logout_user():
     session.pop('logged_in', None)
-    return render_template("logout.html")
+    return render_template("login/logout.html")
 
 
 def has_no_empty_params(rule):
@@ -297,7 +299,45 @@ def add_menu_item():
     return render_template("menu.html")
 '''
 
+@app.route("/load_sample_admins")
+def load_admins():
+	if Admin.query.all() == []:
+		data = """| admin1@gmail.com        | admin1 |
+	| admin2@gmail.com        | admin2 |
+	| admin3@gmail.com        | admin3 |"""
+		records = [[_.strip() for _ in res.strip().strip('|').split('|')] for res in data.split("\n")]
+		for record in records:
+			db.session.add(Admin(record[0], record[0]))
+		db.session.commit()
+	return "done with loading sample admins"
+
+@app.route("/load_sample_users")
+def load_sample_users():
+	#  email, name, password, address, zipcode
+	if Customer.query.all() == []:
+		data = """|dpanchan@uncc.edu|Dinesh|123|UTDrive|28262|
+		|mahidar@uncc.edu|Mahidar|123|Ashford|28262|"""
+		records = [[_.strip() for _ in res.strip().strip('|').split('|')] for res in data.split("\n")]
+		for record in records:
+			db.session.add(Customer(record[0], record[1], record[2], record[3], int(record[4])))
+		db.session.commit()
+	return "done with loading sample users"
+
+@app.route("/load_sample_res_whole")
+def load_sample_whole_res():
+	# email, rest_name, owner_name, password, address, zipcode, rating
+	if Restaurant_whole.query.all() == []:
+		data = """joe@arby.com            | Arby's           |Joe Brad    |joe    | University City Bvld |   28262 |      4 |
+kumar@passagetoindia.com| Passage To India |Bharat Kumar|kumar  | John Kirk Drive      |   28263 |      2 |
+ching@chinapalace.com   | China Palace     |Jian Ching  |ching  | North Tryon Road     |   28273 |      5 |"""
+		records = [[_.strip() for _ in res.strip().strip('|').split('|')] for res in data.split("\n")]
+		for record in records:
+			db.session.add(Restaurant_whole(record[0], record[1], record[2], record[3], record[4], int(record[5]), int(record[6])))
+		db.session.commit()
+	return "done with loading res_wholes"
+
 
 def main():
-    app.debug = True
-    app.run(host='127.0.0.1')
+	Tests.run_all()
+	app.debug = True
+	app.run(host='127.0.0.1')
