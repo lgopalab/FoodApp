@@ -23,7 +23,31 @@
 
 </head>
 <body>
-{% block content %}
+
+
+        <header style="background:black">
+          <div class="black">
+            <br/>
+          </div>
+        </header>
+
+        <div>
+           <img src="{{ url_for('static', filename='logo.jpg') }}" style="float: right; width:300px; width:300px;"  />
+        </div>
+        <div style="float:top">
+            {% block content %}
 {% endblock %}
+        </div>
+
+
+
+
+
+
+        <footer style="background:black">
+          <div class="black">
+            <br/>
+          </div>
+        </footer>
 </body>
 </html>

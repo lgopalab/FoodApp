@@ -1,31 +1,33 @@
 {% extends "layout.html" %}
-<style>
+<style xmlns:color="http://www.w3.org/1999/xhtml">
 #middle {
     top: 50%;
     margin-left: 50%;
+
+
 }
 </style>
 {% block content %}
  {% if not session.logged_in %}
-    <div class="row" id="middle">
+    <div align="center" class="row" id="middle">
         <div class="col s12 m6">
 {% if error  %}<p class=error><strong>Error:</strong> {{ error }}{% endif %}
             
-            <div class="card blue-grey darken-1">
+            <div align="center" class="card red darken-4">
                 <form action="{{ url_for('login') }}" method="POST">
-                    <p><input type="radio" name="login_type" value="customer" id="1" checked/>
-                        <label for="1">Customer</label></p>
+                    <p><input class="card grey darken-2" type="radio" name="login_type" value="customer" id="1" checked/>
+                        <label style="color:gray font-weight: bold" for="1">Customer</label></p>
                     <p><input type="radio" name="login_type" value="rest_owner" id="2"/>
-                        <label for="2">Restaurant Owner</label></p>
+                        <label style="color:gray font-weight: bold" for="2">Restaurant Owner</label></p>
                     <p><input type="radio" name="login_type" value="admin" id="3"/>
-                        <label for="3">Admin</label></p>
+                        <label style="color:gray font-weight: bold" for="3">Admin</label></p>
 
 
                     E-mail <input type="text" name="email"> <br>
                     Password <input type="password" name="password">
                     <div class="card-action">
-                        <input class="btn btn-default" type="submit" value="Login">
-                        <a href="{{ url_for('register') }}">Register</a>
+                        <input class="card grey darken-2" type="submit" value="Login">
+                        <a style="color:gray" href="{{ url_for('register') }}">Register</a>
                     </div>
 
                 </form>

@@ -11,7 +11,7 @@
     <title>Add restaurant</title>
 </head>
 
-<form action="{{ url_for('addmenuitem') }}" method=post>
+<form action="{{ url_for('addmenuitem') }}" style="width: 300px" method=post>
         <label for="inputName">Name</label>
         <input type="text" name="inputName" id="inputName"required autofocus>
         <label for="description">Description</label>
@@ -19,5 +19,5 @@
         <label for="cost">Cost</label>
         <input type="number" name="cost" id="cost" required>
 
-        <input type="submit" class="btn btn-default" value="Submit">
+        <input style="color:gray" type="submit" class="card grey darken-2" value="Submit">
 {% endblock %}

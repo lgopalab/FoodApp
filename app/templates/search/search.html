@@ -1,7 +1,9 @@
+{% extends "layout.html" %}
+{% block content %}
 <html>
 <h1>Search Restaurants</h1>
 <body>
-<form method="GET" action="/search_restaurants">
+<form method="GET" action="/search_restaurants" style="width: 300px">
   Enter here!
   <input type="text" name="resname"/>
   <input type="submit" value="Submit"/>
@@ -27,3 +29,4 @@
 <a href="/all_restaurants">All Restaurants</a>
 </body>
 </html>
+{% endblock %}
