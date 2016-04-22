@@ -11,8 +11,5 @@ sys.path.append(dir_name3)
 sys.path.append(dir_name4)
 print sys.path
 
-import app.models.admin as a
-import load.setup_admin as b
-
-if __name__ == "__main__":
-  b.main()
+from app.models import admin, customer, menu_item, order_list, restaurant_whole, order_details
+from load import setup_admin, setup_users, setup_menu_item, setup_restaurants_whole
