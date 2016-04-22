@@ -18,3 +18,5 @@ class Menu_item(db.Model):
 	def __repr__(self):
 		return "%s,%s,%s,%s" % (self.res_id, self.name, self.description, self.cost, self.rating)
 
+if __name__ == "app.models.menu_item":
+	db.create_all()

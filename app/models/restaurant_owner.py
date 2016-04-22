@@ -16,3 +16,6 @@ class Restaurant_Owner(db.Model):
 
     def __repr__(self):
         return "Restaurant ID:%s " % (self.rest_id)
+
+if __name__ == "app.models.restaurant_owner":
+	db.create_all()

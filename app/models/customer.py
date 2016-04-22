@@ -18,3 +18,6 @@ class Customer(db.Model):
 
     def __repr__(self):
         return "name:%s, mail:%s" % (self.name,self.email)
+
+if __name__ == "app.models.customer":
+	db.create_all()
