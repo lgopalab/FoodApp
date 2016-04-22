@@ -236,7 +236,7 @@ def complete_registration():
     error = None
     user_type = request.form['user_type']
     if user_type == "customer":
-        name = request.form['name']
+        user_name = request.form['name']
         email = request.form['email']
         address = " "
         password = request.form['password']
@@ -287,57 +287,6 @@ def site_map():
             links.append((url, rule.endpoint))
     return render_template("sitemap.html", urls=links)
     # links is now a list of url, endpoint tuples
-
-
-'''
-@app.route("/add_menu", methods=['POST'])
-def add_menu_item():
-    item = request.form['myItems[]']
-    price = request.form['myPrices[]']
-    description= request.form['myDescriptions[]']
-    print item, price, description
-    record = Menu(item, price, description)
-    db.session.add(record)
-    db.session.commit()
-    return render_template("menu.html")
-'''
-
-@app.route("/load_sample_admins")
-def load_admins():
-	if Admin.query.all() == []:
-		data = """| admin1@gmail.com        | admin1 |
-	| admin2@gmail.com        | admin2 |
-	| admin3@gmail.com        | admin3 |"""
-		records = [[_.strip() for _ in res.strip().strip('|').split('|')] for res in data.split("\n")]
-		for record in records:
-			db.session.add(Admin(record[0], record[0]))
-		db.session.commit()
-	return "done with loading sample admins"
-
-@app.route("/load_sample_users")
-def load_sample_users():
-	#  email, name, password, address, zipcode
-	if Customer.query.all() == []:
-		data = """|dpanchan@uncc.edu|Dinesh|123|UTDrive|28262|
-		|mahidar@uncc.edu|Mahidar|123|Ashford|28262|"""
-		records = [[_.strip() for _ in res.strip().strip('|').split('|')] for res in data.split("\n")]
-		for record in records:
-			db.session.add(Customer(record[0], record[1], record[2], record[3], int(record[4])))
-		db.session.commit()
-	return "done with loading sample users"
-
-@app.route("/load_sample_res_whole")
-def load_sample_whole_res():
-	# email, rest_name, owner_name, password, address, zipcode, rating
-	if Restaurant_whole.query.all() == []:
-		data = """joe@arby.com            | Arby's           |Joe Brad    |joe    | University City Bvld |   28262 |      4 |
-kumar@passagetoindia.com| Passage To India |Bharat Kumar|kumar  | John Kirk Drive      |   28263 |      2 |
-ching@chinapalace.com   | China Palace     |Jian Ching  |ching  | North Tryon Road     |   28273 |      5 |"""
-		records = [[_.strip() for _ in res.strip().strip('|').split('|')] for res in data.split("\n")]
-		for record in records:
-			db.session.add(Restaurant_whole(record[0], record[1], record[2], record[3], record[4], int(record[5]), int(record[6])))
-		db.session.commit()
-	return "done with loading res_wholes"
 
 
 def main():
