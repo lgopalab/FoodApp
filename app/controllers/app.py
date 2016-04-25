@@ -36,6 +36,12 @@ def search_page():
     return render_template("search/search.html", restaurants=[], res=False)
 
 
+@app.route("/user_display_menu", methods=['POST'])
+def user_display_menu():
+    print request.form['rest_id']
+    filtered_menu = Menu_item.query.filter_by(_id=request.form['rest_id']).all()
+    return render_template("user/displaymenupage.html", menu=filtered_menu)
+
 @app.route("/search_restaurants", methods=['GET'])
 def search_restaurants():
     resname = request.args.get('resname')
@@ -138,7 +144,6 @@ def deletemenuitem():
     if modify_id[0] == "modify":
         record = Menu_item.query.filter_by(_id=modify_id[1]).all()
         return render_template("res_owner/modifymenuitempage.html", record=record)
-
     else:
         record = Menu_item.query.filter_by(_id=modify_id[1]).all()
     for rec in record:

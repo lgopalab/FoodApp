@@ -1,0 +1,53 @@
+
+{% block content %}
+<html>
+<style>
+    .select-style {
+    border: 1px solid #ccc;
+    width: 120px;
+    border-radius: 3px;
+    overflow: hidden;
+    background: #fafafa url("img/icon-select.png") no-repeat 90% 50%;
+}
+
+.select-style select {
+    padding: 5px 8px;
+    width: 130%;
+    border: none;
+    box-shadow: none;
+    background: transparent;
+    background-image: none;
+    -webkit-appearance: none;
+}
+
+.select-style select:focus {
+    outline: none;
+}
+</style>
+<h1>Edit Menu item page</h1>
+<body>
+ <a href="{{ url_for('search_page') }}" >Back to search</a>
+ <form action="{{url_for('user_display_menu')}}", method="post">
+<table>
+     <div align="center" class="card red darken-4">
+ {% for cur in menu %}
+  <tr>
+      <td>{{cur.name}}</td><td>at {{cur.description}}</td><td> {{cur.cost}}</td>
+         <td>
+             <select class="select-style">
+             {% for i in [1,2,3,4,5,6] %}
+            <option value="{{i}}">{{i}}</option>
+
+                 {% endfor %}
+             </select>
+      </td>
+      <td><button type="submit" name="rest_id" value="{{cur.res_id}}">Add to Cart</button></td>
+  </tr>
+{% endfor %}
+
+         </div>
+</table>
+     </form>
+</body>
+</html>
+{% endblock %}

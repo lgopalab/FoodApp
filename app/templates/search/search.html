@@ -12,10 +12,14 @@
 
 {% if restaurants %}
 <ul>
+    <form method="POST" action="/user_display_menu">
+        <table>
   <h3>Search Results.</h3>
   {% for res in restaurants %}
-  <li>{{res.rest_name}}</li>
+  <tr><td>{{res.rest_name}}</td><td><button type="submit" name="rest_id" value="{{res._id}}">Select Restaurant</button></td></tr>
   {% endfor %}
+</table>
+    </form>
 </ul>
 
 {% else %}
