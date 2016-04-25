@@ -15,13 +15,15 @@ from models.restaurant_whole import Restaurant_whole
 from models.admin import Admin
 from models.customer import Customer
 from models.menu_item import Menu_item
+from models.address import Address
 
 from util.database import db
 
 app = Flask(__name__, template_folder='../templates', static_folder='../../public')
 app.secret_key = 'some_secret'
 
-#from tests.all_tests import Tests
+from tests.orm.orm_tests import ORMTests
+from tests.controller.controller_tests import ControllerTests
 
 
 @app.route("/")
@@ -144,6 +146,7 @@ def deletemenuitem():
     if modify_id[0] == "modify":
         record = Menu_item.query.filter_by(_id=modify_id[1]).all()
         return render_template("res_owner/modifymenuitempage.html", record=record)
+
     else:
         record = Menu_item.query.filter_by(_id=modify_id[1]).all()
     for rec in record:
@@ -293,8 +296,42 @@ def site_map():
     return render_template("sitemap.html", urls=links)
     # links is now a list of url, endpoint tuples
 
+@app.route("/add_billing_address")
+def add_billing_address():
+	return render_template("address/user_billing_address.html")
+
+@app.route("/process_add_billing_address", methods=['POST'])
+def complete_billing_address():
+	if session['logged_in'] and session['user_type'] == 'customer':
+		apt     = request.form["apt"]
+		line1   = request.form["line1"]
+		line2   = request.form["line2"]
+		city    = request.form["city"]
+		state   = request.form["state"]
+		zipcode = request.form['zipcode']
+		new_address = Address(line1, apt, line2, city, state, zipcode, session['user_id'])
+		db.session.add(new_address)
+		db.session.commit()
+		return render_template("address/address_add_success.html")
+
+@app.route("/addresses")
+def existing_addresses():
+	if session['logged_in']:
+		addresses = Address.query.filter_by(user_id=session['user_id']).all()
+		addresses_refined = [str(x).split(",") for x in addresses]
+		return render_template("address/existing_addresses.html", addresses=addresses_refined)
+
+@app.route("/delete_address/<id>")
+def delete_address(id):
+	db.session.delete(Address.query.get(id))
+	db.session.commit()
+	addresses = Address.query.filter_by(user_id=session['user_id']).all()
+	addresses_refined = [str(x).split(",") for x in addresses]
+	return render_template("address/existing_addresses.html", addresses=addresses_refined)
+
 
 def main():
-	#Tests.run_all()
+	# ORMTests.run_all()
+	ControllerTests.run_all(app)
 	app.debug = True
 	app.run(host='127.0.0.1')
