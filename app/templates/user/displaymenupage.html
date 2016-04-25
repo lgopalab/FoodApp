@@ -1,33 +1,53 @@
 
 {% block content %}
 <html>
+<style>
+    .select-style {
+    border: 1px solid #ccc;
+    width: 120px;
+    border-radius: 3px;
+    overflow: hidden;
+    background: #fafafa url("img/icon-select.png") no-repeat 90% 50%;
+}
 
-<h1>Menu Display</h1>
+.select-style select {
+    padding: 5px 8px;
+    width: 130%;
+    border: none;
+    box-shadow: none;
+    background: transparent;
+    background-image: none;
+    -webkit-appearance: none;
+}
+
+.select-style select:focus {
+    outline: none;
+}
+</style>
+<h1>Edit Menu item page</h1>
 <body>
  <a href="{{ url_for('search_page') }}" >Back to search</a>
- {% for cur in menu %}
- <form action="{{url_for('add_to_cart')}}", method="post">
+ <form action="{{url_for('user_display_menu')}}", method="post">
 <table>
      <div align="center" class="card red darken-4">
-
+ {% for cur in menu %}
   <tr>
       <td>{{cur.name}}</td><td>at {{cur.description}}</td><td> {{cur.cost}}</td>
          <td>
-             <select name="quantity" class="select-style">
+             <select class="select-style">
              {% for i in [1,2,3,4,5,6] %}
             <option value="{{i}}">{{i}}</option>
+
                  {% endfor %}
              </select>
       </td>
-      <input type="hidden" name="menu_item_id" value="{{cur._id}}">
-      <td><button type="submit">Add to Cart</button></td>
+      <td><button type="submit" name="rest_id" value="{{cur.res_id}}">Add to Cart</button></td>
   </tr>
-
+{% endfor %}
 
          </div>
 </table>
      </form>
-{% endfor %}
 </body>
 </html>
 {% endblock %}

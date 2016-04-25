@@ -33,8 +33,7 @@ class Tests:
 	@staticmethod
 	def test_menu_item_deletion(res):
 		print "running tests on menu items deletion"
-		for item in Menu_item.query.filter(Menu_item.res_id == res).all():
-			db.session.delete(item)
+		db.session.query(Menu_item).delete()
 		db.session.commit()
 		assert 0 == len(Menu_item.query.all())
 

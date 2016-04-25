@@ -6,7 +6,7 @@ class Customer(db.Model):
     email = db.Column(db.String(40))
     name = db.Column(db.String(20))
     password = db.Column(db.String(20))
-    address = db.Column(db.String(30))
+    address = db.Column(db.String(1000))
     zipcode = db.Column(db.Integer)
 
     def __init__(self, email, name, password, address, zipcode):
