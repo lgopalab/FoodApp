@@ -1,0 +1,25 @@
+
+{% block content %}
+<html>
+
+<h1>Cart Page</h1>
+<body>
+ <a href="{{ url_for('search_page') }}" >Back to search</a>
+ <form action="{{url_for('add_to_cart')}}", method="post">
+<table>
+     <div align="center" class="card red darken-4">
+ {% for item,qty,rest_name,menu_item_name in item_quantity_list %}
+  <tr>
+      <td>{{item}}</td>
+      <td>{{qty}}</td>
+      <td>{{rest_name}}</td>
+      <td>{{menu_item_name}}</td>
+  </tr>
+{% endfor %}
+
+         </div>
+</table>
+     </form>
+</body>
+</html>
+{% endblock %}

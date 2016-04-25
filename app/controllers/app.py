@@ -2,6 +2,7 @@ import os
 import sys
 import random
 import time
+import itertools
 
 from flask import Flask, flash, url_for, session
 from flask import render_template
@@ -23,7 +24,6 @@ app.secret_key = 'some_secret'
 
 #from tests.all_tests import Tests
 
-
 @app.route("/")
 @app.route("/home")
 def home():
@@ -39,8 +39,31 @@ def search_page():
 @app.route("/user_display_menu", methods=['POST'])
 def user_display_menu():
     print request.form['rest_id']
-    filtered_menu = Menu_item.query.filter_by(_id=request.form['rest_id']).all()
+    filtered_menu = Menu_item.query.filter_by(res_id=request.form['rest_id']).all()
     return render_template("user/displaymenupage.html", menu=filtered_menu)
+
+@app.route("/add_to_cart", methods=['POST'])
+def add_to_cart():
+    item_id=request.form['menu_item_id']
+    quantity = request.form['quantity']
+    if item_id in session['menu_item_list']:
+        index = session['menu_item_list'].index(item_id)
+        temp_list = session['quantity_list']
+        temp_list[index]=quantity
+        session['quantity_list'] = temp_list
+        return render_template("user/displaycart.html",item_quantity_list=zip(session['menu_item_list'], session['quantity_list']))
+    else:
+        session['menu_item_list'].append(item_id)
+        session['quantity_list'].append(quantity)
+        rest_name_list = []
+        menu_item_name_list = []
+        for i in session['menu_item_list']:
+            rest_id = Menu_item.query.filter_by(_id=i).first()
+            menu_item_name_list.append(rest_id.name)
+            rest_name = Restaurant_whole.query.filter_by(_id = rest_id.res_id ).first()
+            rest_name_list.append(rest_name.rest_name)
+            print rest_name_list
+        return render_template("user/displaycart.html",item_quantity_list=zip(session['menu_item_list'],session['quantity_list'],rest_name_list,menu_item_name_list))
 
 @app.route("/search_restaurants", methods=['GET'])
 def search_restaurants():
@@ -158,6 +181,8 @@ def deletemenuitem():
 @app.route('/login',methods=['GET', 'POST'])
 def login():
     error = None
+    session['menu_item_list'] = []
+    session['quantity_list'] = []
     if not(session.get('logged_in')):
         print "inside after session condition"
         if request.method == 'POST':

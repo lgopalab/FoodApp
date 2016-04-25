@@ -20,3 +20,6 @@ class Menu_item(db.Model):
 
 if __name__ == "app.models.menu_item":
 	db.create_all()
+
+def main():
+	db.create_all()
