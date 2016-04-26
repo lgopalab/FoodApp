@@ -40,7 +40,6 @@ def search_page():
 
 @app.route("/user_display_menu", methods=['POST'])
 def user_display_menu():
-    print request.form['rest_id']
     filtered_menu = Menu_item.query.filter_by(res_id=request.form['rest_id']).all()
     return render_template("user/displaymenupage.html", menu=filtered_menu)
 
@@ -53,19 +52,62 @@ def add_to_cart():
         temp_list = session['quantity_list']
         temp_list[index]=quantity
         session['quantity_list'] = temp_list
-        return render_template("user/displaycart.html",item_quantity_list=zip(session['menu_item_list'], session['quantity_list']))
+        rest_name_list = []
+        menu_item_name_list = []
+        menu_item_cost_list = []
+        for i in session['menu_item_list']:
+            rest_id = Menu_item.query.filter_by(_id=i).first()
+            menu_item_name_list.append(rest_id.name)
+            menu_item_cost_list.append(rest_id.cost)
+            rest_name = Restaurant_whole.query.filter_by(_id=rest_id.res_id).first()
+            rest_name_list.append(rest_name.rest_name)
+        total = 0.0
+        for i,j in zip(session['quantity_list'],menu_item_cost_list):
+            total += float(j) * int(i)
+        session["order_cost"] = total
+        return render_template("user/displaycart.html",item_quantity_list=zip(session['menu_item_list'], session['quantity_list'],rest_name_list, menu_item_name_list,menu_item_cost_list),cost=session["order_cost"])
     else:
         session['menu_item_list'].append(item_id)
         session['quantity_list'].append(quantity)
         rest_name_list = []
         menu_item_name_list = []
+        menu_item_cost_list = []
         for i in session['menu_item_list']:
             rest_id = Menu_item.query.filter_by(_id=i).first()
             menu_item_name_list.append(rest_id.name)
+            menu_item_cost_list.append(rest_id.cost)
             rest_name = Restaurant_whole.query.filter_by(_id = rest_id.res_id ).first()
             rest_name_list.append(rest_name.rest_name)
             print rest_name_list
-        return render_template("user/displaycart.html",item_quantity_list=zip(session['menu_item_list'],session['quantity_list'],rest_name_list,menu_item_name_list))
+        total = 0.0
+        for i, j in zip(session['quantity_list'], menu_item_cost_list):
+            total += float(j) * int(i)
+        session["order_cost"] = total
+        return render_template("user/displaycart.html",item_quantity_list=zip(session['menu_item_list'],session['quantity_list'],rest_name_list,menu_item_name_list,menu_item_cost_list),cost=session["order_cost"])
+
+@app.route("/display_cart")
+def display_cart():
+    rest_name_list = []
+    menu_item_name_list = []
+    menu_item_cost_list = []
+    for i in session['menu_item_list']:
+        rest_id = Menu_item.query.filter_by(_id=i).first()
+        menu_item_name_list.append(rest_id.name)
+        menu_item_cost_list.append(rest_id.cost)
+        rest_name = Restaurant_whole.query.filter_by(_id=rest_id.res_id).first()
+        rest_name_list.append(rest_name.rest_name)
+    total = 0.0
+    for i,j in zip(session['quantity_list'],menu_item_cost_list):
+        total += float(j) * int(i)
+    session["order_cost"] = total
+    return render_template("user/displaycart.html",item_quantity_list=zip(session['menu_item_list'], session['quantity_list'],rest_name_list,menu_item_name_list,menu_item_cost_list),cost=session["order_cost"])
+
+@app.route("/post_order", methods=['POST'])
+def post_order():
+    if session['logged_in']:
+        addresses = Address.query.filter_by(user_id=session['user_id']).all()
+        addresses_refined = [str(x).split(",") for x in addresses]
+        return render_template("user/post_order_address.html", addresses=addresses_refined)
 
 @app.route("/search_restaurants", methods=['GET'])
 def search_restaurants():
@@ -184,10 +226,7 @@ def deletemenuitem():
 @app.route('/login',methods=['GET', 'POST'])
 def login():
     error = None
-    session['menu_item_list'] = []
-    session['quantity_list'] = []
     if not(session.get('logged_in')):
-        print "inside after session condition"
         if request.method == 'POST':
             email = request.form['email']
             password = request.form['password']
@@ -201,6 +240,7 @@ def login():
                         session['logged_in'] = True
                         session['user_type'] = user_type
                         session['user_id'] = pass_real._id
+                        session["order_cost"] = 0.0
                         return render_template("user/user_homepage.html", user=pass_real.name)
                     else:
                         error = 'Invalid Username/Password.'
@@ -231,7 +271,6 @@ def login():
                 error="Both E-mail and Password are required."
                 return render_template("login/login.html", error=error)
         else:
-            print "in Else condition"
             return render_template("login/login.html", error=error)
     else:
         if session['user_type'] == "customer":
