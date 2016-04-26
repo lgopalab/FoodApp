@@ -23,9 +23,9 @@ from util.database import db
 app = Flask(__name__, template_folder='../templates', static_folder='../../public')
 app.secret_key = 'some_secret'
 
-from tests.orm.orm_tests import ORMTests
+"""from tests.orm.orm_tests import ORMTests
 from tests.controller.controller_tests import ControllerTests
-
+"""
 @app.route("/")
 @app.route("/home")
 def home():
@@ -396,6 +396,6 @@ def delete_address(id):
 
 def main():
 	# ORMTests.run_all()
-	ControllerTests.run_all(app)
+	#ControllerTests.run_all(app)
 	app.debug = True
 	app.run(host='127.0.0.1')
