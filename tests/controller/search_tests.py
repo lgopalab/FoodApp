@@ -4,7 +4,7 @@ class SearchTests:
 		print "Running tests on Search Controller"
 		assert 'Arby' in app.get("/search_restaurants?resname=A").data
 		assert "Bojangles" in app.get("/search_restaurants?resname=Bo").data
-		print "search test was successful."
+		print "Search test was successful."
 
 
 	@staticmethod
