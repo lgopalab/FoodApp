@@ -4,6 +4,7 @@ from register_tests import RegisterTests
 from static_page_tests import PageRetrievalTests
 from search_tests import SearchTests
 from add_address_test import AddressTests
+from add_menu_item_test import AddMenuTests
 
 
 
@@ -16,3 +17,4 @@ class ControllerTests:
 		LoginTests.run_all(app)
 		SearchTests.run_all(app)
 		AddressTests.run_all(app)
+		AddMenuTests.run_all(app)

@@ -34,6 +34,7 @@ class AddressTests:
 					db.session.delete(address)
 			db.session.commit()
 
+			c.get("/logout")
 			print "Add address test successful"
 
 
