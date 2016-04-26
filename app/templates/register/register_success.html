@@ -7,7 +7,12 @@ function myFunction() {
 }
 </script>
 <body onload="setTimeout(myFunction, 3000)">
+{% if error %}
+<h3>{{ error }}</h3>
+{% endif %}
+{% if not error %}
     <h3>Registered Successfully.</h3>
     <h5>Please wait while you page is being redirected.</h5>
+{% endif %}
 </body>
 {% endblock %}

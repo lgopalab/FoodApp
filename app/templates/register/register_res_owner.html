@@ -4,19 +4,22 @@
 {% block content %}
     <div class="row" id="middle">
         <div class="col s12 m6">
-            {% if error  %}<p class=error><strong>Error:</strong> {{ error }}{% endif %}
-            <div class="card waves-yellow darken-1">
-                <form action="/complete_registration" method="POST">
-                    Restaurant Name<input type="text" name="rest_name"/> <br>
-                    Email Address <input type="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" name="email"/> <br>
-                    Owner Name <input type="text" name="owner_name" /> <br>
-                    Restaurant Address <input type="text" name="address" /> <br>
-                    Restaurant Zipcode <input type="number" min="10000" max="99999" name="zipcode" /> <br>
-                    Password <input type="password" name="password"/> <br>
-                    <input type="hidden" name="user_type" value="rest_owner">
-                    <input type="submit" value="Submit"/>
-                </form>
+            {% if error %}<p class=error><strong>Error:</strong> {{ error }}{% endif %}
+            <div class="card blue-grey darken-1">
+                <div class="card-content white-text">
+                    <form action="/complete_registration" method="POST">
+                        Restaurant Name<input type="text" name="rest_name" required/> <br>
+                        Email Address <input type="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" name="email"
+                                             required/> <br>
+                        Owner Name <input type="text" name="owner_name" required/> <br>
+                        Restaurant Address <input type="text" name="address" required/> <br>
+                        Restaurant Zipcode <input type="number" min="10000" max="99999" name="zipcode" required/> <br>
+                        Password <input type="password" name="password" required/> <br>
+                        Confirm Password <input type="password" name="cpassword" required/> <br>
+                        <input type="hidden" name="user_type" value="rest_owner">
+                        <input type="submit" value="Submit"/>
+                    </form>
+                </div>
             </div>
         </div>
-    </div>
 {% endblock %}
