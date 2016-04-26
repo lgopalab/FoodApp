@@ -23,9 +23,9 @@ from util.database import db
 app = Flask(__name__, template_folder='../templates', static_folder='../../public')
 app.secret_key = 'some_secret'
 
-"""from tests.orm.orm_tests import ORMTests
-from tests.controller.controller_tests import ControllerTests
-"""
+#from tests.orm.orm_tests import ORMTests
+#from tests.controller.controller_tests import ControllerTests
+
 @app.route("/")
 @app.route("/home")
 def home():
@@ -241,6 +241,8 @@ def login():
                         session['user_type'] = user_type
                         session['user_id'] = pass_real._id
                         session["order_cost"] = 0.0
+                        session['menu_item_list'] = []
+                        session['quantity_list'] = []
                         return render_template("user/user_homepage.html", user=pass_real.name)
                     else:
                         error = 'Invalid Username/Password.'
@@ -338,7 +340,7 @@ def complete_registration():
 
 @app.route("/logout")
 def logout_user():
-    session.pop('logged_in', None)
+    session.clear()
     return render_template("login/logout.html")
 
 
@@ -395,7 +397,7 @@ def delete_address(id):
 
 
 def main():
-	# ORMTests.run_all()
+	#ORMTests.run_all()
 	#ControllerTests.run_all(app)
 	app.debug = True
 	app.run(host='127.0.0.1')
