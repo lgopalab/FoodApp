@@ -14,7 +14,7 @@ class Admin(db.Model):
 
 
     def __repr__(self):
-        return "name:%s, mail:%s" % (self.name.self.email)
+        return "mail:%s" % self.email
 
 if __name__ == "app.models.admin":
 	db.create_all()
