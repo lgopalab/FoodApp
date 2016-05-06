@@ -1,3 +1,5 @@
+{% extends "layout.html" %}
+{% block content %}
 <html>
     <h1>Add Menu Items</h1>
     <body>
@@ -33,14 +35,14 @@
 
          <div id="dynamicInput">
 
-             Item<br><input type='text' name='myItems[]'></br>
-             Price<br><input type='text' name='myPrices[]'></br>
-             Description<br><input type='text' name='myDescription[]'></br>
+             Item<br><input type='text' style="color:black font-weight: bold" name='myItems[]' ></br>
+             Price<br><input type='text' style="color:black font-weight: bold" name='myPrices[]' ></br>
+             Description<br><input type='text' style="color:black font-weight: bold" name='myDescription[]'></br>
 
 
          </div>
 
-         <input type="button" value="Add another text input" onClick="addInput('dynamicInput');">
+         <input style="color:gray" class="card grey darken-2" type="button" value="Add another text input" onClick="addInput('dynamicInput');">
         <input type="submit" value="Update" />
     </form>
     </body>

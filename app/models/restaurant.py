@@ -15,3 +15,6 @@ class Restaurant(db.Model):
 
 	def __repr__(self):
 		return "%s,%s,%s,%s" % (self.name, self.address,self.zipcode, self.rating)
+
+if __name__ == "app.models.restaurant":
+	db.create_all()

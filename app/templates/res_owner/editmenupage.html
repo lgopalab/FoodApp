@@ -1,8 +1,12 @@
+{% extends "layout.html" %}
+{% block content %}
 <html>
 <h1>Edit Menu item page</h1>
 <body>
  <a href="{{ url_for('addmenuitempage') }}" >Add Menu Item</a>
+ <a href="{{ url_for('login') }}" >Back</a>
 <table>
+     <div align="center" class="card red darken-4">
     <form action="{{url_for('deletemenuitem')}}", method="post">
  {% for cur in menu %}
   <tr>
@@ -12,7 +16,9 @@
   </tr>
 {% endfor %}
         </form>
+         </div>
 </table>
 </body>
 <br>
 </html>
+{% endblock %}

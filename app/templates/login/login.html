@@ -1,0 +1,39 @@
+{% extends "layout.html" %}
+<style xmlns:color="http://www.w3.org/1999/xhtml">
+#middle {
+    top: 50%;
+    margin-left: 50%;
+
+
+}
+</style>
+{% block content %}
+ {% if not session.logged_in %}
+    <div align="center" class="row" id="middle">
+        <div align="center" style="float: center" class="col s12 m6">
+{% if error  %}<p class=error><strong>Error:</strong> {{ error }}{% endif %}
+            
+            <div align="center" class="card red darken-4">
+                <form action="{{ url_for('login') }}" method="POST">
+                    <p><input class="card grey darken-2" type="radio" name="login_type" value="customer" id="1" checked/>
+                        <label style="color:gray font-weight: bold" for="1">Customer</label></p>
+                    <p><input type="radio" name="login_type" value="rest_owner" id="2"/>
+                        <label style="color:gray font-weight: bold" for="2">Restaurant Owner</label></p>
+                    <p><input type="radio" name="login_type" value="admin" id="3"/>
+                        <label style="color:gray font-weight: bold" for="3">Admin</label></p>
+
+
+                    E-mail <input type="text" name="email"> <br>
+                    Password <input type="password" name="password">
+                    <div class="card-action">
+                        <input class="card grey darken-2" type="submit" value="Login">
+                        <a style="color:gray" href="{{ url_for('register') }}">Register</a>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+ {% endif %}
+
+{% endblock %}

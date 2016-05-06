@@ -1,0 +1,24 @@
+{% extends "layout.html" %}
+{% block content %}
+<html>
+<h1>Edit Customer Details Page</h1>
+<body>
+ <a href="{{ url_for('addmenuitempage') }}" >Add Menu Item</a>
+ <a href="{{ url_for('login') }}" >Back</a>
+<table>
+     <div align="center" class="card red darken-4">
+    <form action="{{url_for('editdetails')}}", method="post">
+ {% for cur in menu %}
+  <tr>
+      <td>{{cur.address}}</td><td>{{cur.zip}}</td><td>{{cur.email}}</td><td>
+      <td><button type="submit" name="Modify" value="modify_{{cur._id}}">Modify</button></td>
+      <td><button type="submit" name="Modify" value="delete_{{cur._id}}" onclick="return confirm('Are you sure you want to delete the Menu_item')">Delete</button></td>
+  </tr>
+{% endfor %}
+        </form>
+         </div>
+</table>
+</body>
+<br>
+</html>
+{% endblock %}

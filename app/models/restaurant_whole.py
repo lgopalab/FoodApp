@@ -22,3 +22,9 @@ class Restaurant_whole(db.Model):
 
     def __repr__(self):
         return "%s %s" % (self.rest_name, self.email)
+
+if __name__ == "app.models.restaurant_whole":
+	db.create_all()
+
+def main():
+    db.create_all()

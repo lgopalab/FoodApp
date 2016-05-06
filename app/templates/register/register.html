@@ -2,18 +2,19 @@
 {% block content %}
     <div class="row">
         <div class="col s12 m6">
-            <div class="card blue-grey darken-1">
+            {% if error  %}<p class=error><strong>Error:</strong> {{ error }}{% endif %}
+            <div class="card red darken-4">
                 <div class="card-content white-text">
                     <span class="card-title">Register as</span>
                 </div>
                 <form action="{{ url_for('register_form') }}" method="POST">
-                    <p><input type="radio" name="reg_type" value="customer" id="1" checked/>
+                    <p><input  type="radio" name="user_type" value="customer" style="color:gray" id="1" checked/>
                         <label for="1">Customer</label></p>
-                    <p><input type="radio" name="reg_type" value="rest_owner" id="2"/>
+                    <p><input type="radio" name="user_type" value="rest_owner" id="2" style="color:gray"/>
                         <label for="2">Restaurant Owner</label></p>
 
                     <div class="card-action">
-                        <input class="btn btn-default" type="submit" value="Register">
+                        <input class="card grey darken-2" type="submit" value="Register">
                     </div>
                 </form>
             </div>

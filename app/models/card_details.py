@@ -1,9 +1,10 @@
 from util.database import db
 
 
-class Admin(db.Model):
-    _id = db.Column(db.Integer, primary_key=True)
-    email = db.Column(db.String(40))
+class Card_Details(db.Model):
+    cardnum = db.Column(db.Integer, primary_key=True)
+    cvv = db.Column(db.Integer)
+    valid_thru =
     password = db.Column(db.String(20))
 
 
@@ -14,7 +15,7 @@ class Admin(db.Model):
 
 
     def __repr__(self):
-        return "mail:%s" % self.email
+        return "name:%s, mail:%s" % (self.name.self.email)
 
-if __name__ == "app.models.admin":
-	db.create_all()
+def main():
+    db.create_all()

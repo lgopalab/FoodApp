@@ -1,0 +1,36 @@
+
+{% block content %}
+<html>
+
+<h1>Menu Display</h1>
+<body>
+ <a href="{{ url_for('search_page') }}" >Back to search</a>
+ <br>
+ <a href="/display_cart">Display Cart</a>
+    <br>
+ {% for cur in menu %}
+ <form action="{{url_for('add_to_cart')}}", method="post">
+<table>
+     <div align="center" class="card red darken-4">
+
+  <tr>
+      <td>{{cur.name}}</td><td>at {{cur.description}}</td><td> {{cur.cost}}</td>
+         <td>
+             <select name="quantity" class="select-style">
+             {% for i in [1,2,3,4,5,6] %}
+            <option value="{{i}}">{{i}}</option>
+                 {% endfor %}
+             </select>
+      </td>
+      <input type="hidden" name="menu_item_id" value="{{cur._id}}">
+      <td><button type="submit">Add to Cart</button></td>
+  </tr>
+
+
+         </div>
+</table>
+     </form>
+{% endfor %}
+</body>
+</html>
+{% endblock %}

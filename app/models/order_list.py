@@ -12,3 +12,7 @@ class Order_List(db.Model):
 
     def __repr__(self):
         return "User ID:%s Delivered by %s " % (self.customer_id, self.delivery_id)
+
+
+if __name__ == "app.models.order_list":
+	db.create_all()

@@ -1,0 +1,23 @@
+{% extends "layout.html" %}
+{% block content %}
+    <div class="row">
+        <div class="col s12 m6">
+            <div class="card red darken-4">
+                <div class="card-content white-text">
+                    <span class="card-title">Enter the details</span>
+                    <form method="POST" action="/process_add_billing_address">
+                        Address Line 1<input type="text" name="line1" maxlength="40" required/>
+                        Apt <input type="text" name="apt" maxlength="1" required/><br>
+                        Address Line 2<input type="text" name="line2" maxlength="40" required/><br>
+                        City<input type="text" name="city" maxlength="12" required/><br>
+                        State<input type="text" name="state" maxlength="2" required/><br>
+                        Zipcode <input type="number" name="zipcode" required/>
+                                            <input type="submit"/>
+                    </form>
+                </div>
+                <div class="card-action">
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

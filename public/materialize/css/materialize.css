@@ -5909,6 +5909,8 @@ textarea.materialize-textarea {
   position: absolute;
   left: -9999px;
   opacity: 0;
+  opacity: 0;
+  color: gray;
 }
 
 [type="radio"]:not(:checked) + label,
@@ -5926,6 +5928,7 @@ textarea.materialize-textarea {
      -moz-user-select: none;
       -ms-user-select: none;
           user-select: none;
+
 }
 
 [type="radio"] + label:before,

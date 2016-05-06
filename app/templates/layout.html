@@ -20,10 +20,49 @@
     <script src="{{ url_for('static', filename='materialize/js/materialize.min.js') }}" type="text/javascript"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
+<style>
+.float_center {
+  float: center;
+  position: relative;
+  left: -70%; /* or right 50% */
+  text-align: left;
+}
+#wrapper {
+  width: 1000px;     /* specify a width! */
+  margin: 0 auto; /* center */
+}
+body {
+    margin:0 auto;
+    width:1000px;
+}
 
-</head>
+</style>
 <body>
-{% block content %}
-{% endblock %}
+
+
+        <header style="background:black">
+          <div class="black">
+            <br/>
+          </div>
+        </header>
+
+       <div>
+           <img src="{{ url_for('static', filename='logo.jpg') }}" style="float: right; width:300px; width:300px;"  />
+        </div>
+        <div>
+            {% block content %}
+            {% endblock %}
+        </div>
+
+
+
+
+
+
+        <footer style="background:black">
+          <div class="black">
+            <br/>
+          </div>
+        </footer>
 </body>
 </html>
