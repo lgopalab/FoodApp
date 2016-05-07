@@ -11,7 +11,9 @@ sys.path.append(dir_name3)
 sys.path.append(dir_name4)
 print sys.path
 
+import app.controllers.app_test as tests
 import app.controllers.app as a
 
 if __name__ == "__main__":
-  a.main()
+	tests.main()
+	a.main()

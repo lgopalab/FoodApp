@@ -12,13 +12,15 @@ from random import randint
 app_dir = os.path.abspath("..")
 sys.path.insert(0, app_dir)
 
-from models.restaurant_whole import RestaurantWhole
-from models.admin import Admin
-from models.customer import Customer
-from models.menu_item import MenuItem
-from models.address import Address
+from util.database import app2 as app
 
-from util.database import db
+from models.restaurant_whole import RestaurantWholeTest as RestaurantWhole
+from models.admin import AdminTest as Admin
+from models.customer import CustomerTest as Customer
+from models.menu_item import MenuItemTest as MenuItem
+from models.address import AddressTest as Address
+
+from util.database import db2 as db
 
 app = Flask(__name__, template_folder='../templates', static_folder='../../public')
 app.secret_key = 'some_secret'
@@ -339,19 +341,16 @@ def complete_registration():
 			error = "Password Doesn't match. Enter the values again"
 			return render_template("register/register_customer.html", error=error)
 	else:
-		print request.form
 		owner_name = request.form['owner_name']
 		rest_name = request.form['rest_name']
 		email = request.form['email']
 		address = request.form['address']
-		city = request.form['city']
-		state = request.form['state']
 		zipcode = request.form['zipcode']
 		password = request.form['password']
 		cpassword = request.form['cpassword']
 		rating = random.randint(0, 5)
 		if password == cpassword and len(RestaurantWhole.query.filter_by(email=email).all()) == 0:
-			record = RestaurantWhole(email, rest_name, owner_name, password, address, city, state, zipcode, rating)
+			record = RestaurantWhole(email, rest_name, owner_name, password, address, zipcode, rating)
 			db.session.add(record)
 			db.session.commit()
 			return render_template("register/register_success.html")
@@ -425,5 +424,5 @@ def delete_address(id):
 
 
 def main():
-	app.debug = True
-	app.run(host='127.0.0.1')
+	ORMTests.run_all()
+	ControllerTests.run_all(app)
