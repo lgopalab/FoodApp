@@ -1,7 +1,7 @@
 from flask import session
-from models.customer import Customer
-from models.admin import Admin
-from models.restaurant_whole import Restaurant_whole
+from models.customer import CustomerTest as Customer
+from models.admin import AdminTest as Admin
+from models.restaurant_whole import RestaurantWholeTest as RestaurantWhole
 
 class LoginTests:
 	# login as customer
@@ -62,7 +62,7 @@ class LoginTests:
 
 	@staticmethod
 	def login_as_res_owner(app):
-		res_owner = Restaurant_whole.query.first()
+		res_owner = RestaurantWhole.query.first()
 		credentials = {"email": res_owner.email,
 		               "password": res_owner.password,
 		               "login_type": "rest_owner"}

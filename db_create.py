@@ -11,10 +11,23 @@ sys.path.append(dir_name3)
 sys.path.append(dir_name4)
 print sys.path
 
-# from app.models import admin, customer, menu_item, order_list, restaurant_whole, order_details
-# from load import setup_admin, setup_users, setup_menu_item, setup_restaurants_whole
+models = ['address', "admin", "customer", "menu_item",
+          "order_details", "order_list", "restaurant_whole"]
+setups = ['setup_admin', 'setup_menu_item', 'setup_restaurants_whole', 'setup_users']
 
+for model in models:
+	try:
+		# exec('from models import %s' % model)
+		# exec('%s.main()' % model)
+		pass
+	except BaseException as e:
+		print model
+		print e
 
-import app.models.menu_item as c
-import load.setup_menu_item as d
-
+for model in setups:
+	try:
+		exec ('from load import %s' % model)
+		exec ('%s.main()' % model)
+	except BaseException as e:
+		print model
+		print e

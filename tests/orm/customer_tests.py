@@ -1,5 +1,5 @@
-from models.customer import Customer
-from util.database import db
+from models.customer import CustomerTest as Customer
+from util.database import db2 as db
 
 class Tests:
 	@staticmethod

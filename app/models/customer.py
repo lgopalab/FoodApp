@@ -19,5 +19,27 @@ class Customer(db.Model):
     def __repr__(self):
         return "name:%s, mail:%s" % (self.name,self.email)
 
-if __name__ == "app.models.customer":
+from util.database import db2
+
+
+class CustomerTest(db2.Model):
+    _id = db2.Column(db2.Integer, primary_key=True)
+    email = db2.Column(db2.String(40))
+    name = db2.Column(db2.String(20))
+    password = db2.Column(db2.String(20))
+    address = db2.Column(db2.String(1000))
+    zipcode = db2.Column(db2.Integer)
+
+    def __init__(self, email, name, password, address, zipcode):
+        self.email = email
+        self.name = name
+        self.password = password
+        self.address = address
+        self.zipcode = zipcode
+
+    def __repr__(self):
+        return "name:%s, mail:%s" % (self.name,self.email)
+
+def main():
 	db.create_all()
+	db2.create_all()

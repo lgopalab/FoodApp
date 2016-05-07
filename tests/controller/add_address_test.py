@@ -1,6 +1,6 @@
-from models.customer import Customer
-from models.address import Address
-from util.database import db
+from models.customer import CustomerTest as Customer
+from models.address import AddressTest as Address
+from util.database import db2 as db
 
 class AddressTests:
 

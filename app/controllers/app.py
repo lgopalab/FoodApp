@@ -12,10 +12,10 @@ from random import randint
 app_dir = os.path.abspath("..")
 sys.path.insert(0, app_dir)
 
-from models.restaurant_whole import Restaurant_whole
+from models.restaurant_whole import RestaurantWhole
 from models.admin import Admin
 from models.customer import Customer
-from models.menu_item import Menu_item
+from models.menu_item import MenuItem
 from models.address import Address
 
 from util.database import db
@@ -23,8 +23,8 @@ from util.database import db
 app = Flask(__name__, template_folder='../templates', static_folder='../../public')
 app.secret_key = 'some_secret'
 
-#from tests.orm.orm_tests import ORMTests
-#from tests.controller.controller_tests import ControllerTests
+from tests.orm.orm_tests import ORMTests
+from tests.controller.controller_tests import ControllerTests
 
 @app.route("/")
 @app.route("/home")
@@ -40,7 +40,7 @@ def search_page():
 
 @app.route("/user_display_menu", methods=['POST'])
 def user_display_menu():
-    filtered_menu = Menu_item.query.filter_by(res_id=request.form['rest_id']).all()
+    filtered_menu = MenuItem.query.filter_by(res_id=request.form['rest_id']).all()
     return render_template("user/displaymenupage.html", menu=filtered_menu)
 
 @app.route("/add_to_cart", methods=['POST'])
@@ -56,10 +56,10 @@ def add_to_cart():
         menu_item_name_list = []
         menu_item_cost_list = []
         for i in session['menu_item_list']:
-            rest_id = Menu_item.query.filter_by(_id=i).first()
+            rest_id = MenuItem.query.filter_by(_id=i).first()
             menu_item_name_list.append(rest_id.name)
             menu_item_cost_list.append(rest_id.cost)
-            rest_name = Restaurant_whole.query.filter_by(_id=rest_id.res_id).first()
+            rest_name = RestaurantWhole.query.filter_by(_id=rest_id.res_id).first()
             rest_name_list.append(rest_name.rest_name)
         total = 0.0
         for i,j in zip(session['quantity_list'],menu_item_cost_list):
@@ -73,10 +73,10 @@ def add_to_cart():
         menu_item_name_list = []
         menu_item_cost_list = []
         for i in session['menu_item_list']:
-            rest_id = Menu_item.query.filter_by(_id=i).first()
+            rest_id = MenuItem.query.filter_by(_id=i).first()
             menu_item_name_list.append(rest_id.name)
             menu_item_cost_list.append(rest_id.cost)
-            rest_name = Restaurant_whole.query.filter_by(_id = rest_id.res_id ).first()
+            rest_name = RestaurantWhole.query.filter_by(_id = rest_id.res_id ).first()
             rest_name_list.append(rest_name.rest_name)
             print rest_name_list
         total = 0.0
@@ -91,10 +91,10 @@ def display_cart():
     menu_item_name_list = []
     menu_item_cost_list = []
     for i in session['menu_item_list']:
-        rest_id = Menu_item.query.filter_by(_id=i).first()
+        rest_id = MenuItem.query.filter_by(_id=i).first()
         menu_item_name_list.append(rest_id.name)
         menu_item_cost_list.append(rest_id.cost)
-        rest_name = Restaurant_whole.query.filter_by(_id=rest_id.res_id).first()
+        rest_name = RestaurantWhole.query.filter_by(_id=rest_id.res_id).first()
         rest_name_list.append(rest_name.rest_name)
     total = 0.0
     for i,j in zip(session['quantity_list'],menu_item_cost_list):
@@ -112,30 +112,30 @@ def post_order():
 @app.route("/search_restaurants", methods=['GET'])
 def search_restaurants():
     resname = request.args.get('resname')
-    filtered_restaurants = Restaurant_whole.query.filter(Restaurant_whole.rest_name.startswith(resname)).all()
+    filtered_restaurants = RestaurantWhole.query.filter(RestaurantWhole.rest_name.startswith(resname)).all()
     return render_template("search/search.html", restaurants=filtered_restaurants, res=True)
 
 
 @app.route('/all_restaurants')
 def all_restaurants():
-    filtered_restaurants = Restaurant_whole.query.all()
+    filtered_restaurants = RestaurantWhole.query.all()
     return render_template("search/all_restaurants.html", restaurants=filtered_restaurants)
 
 
 @app.route('/adminrestaurantpage')
 def adminrestaurantpage():
-    filtered_restaurants_admin = Restaurant_whole.query.all()
+    filtered_restaurants_admin = RestaurantWhole.query.all()
     return render_template("admin/adminrestaurant.html", restaurants=filtered_restaurants_admin)
 
 
 @app.route('/deleterestaurant', methods=['POST'])
 def deleterestaurant():
     id = request.form['Delete']
-    record = Restaurant_whole.query.filter_by(_id=id).all()
+    record = RestaurantWhole.query.filter_by(_id=id).all()
     for rec in record:
         db.session.delete(rec)
         db.session.commit()
-    filtered_restaurants_admin = Restaurant_whole.query.all()
+    filtered_restaurants_admin = RestaurantWhole.query.all()
     return render_template("admin/adminrestaurant.html", restaurants=filtered_restaurants_admin)
 
 
@@ -153,17 +153,17 @@ def addrestaurant():
     address = request.form['inputAddress']
     zipcode = request.form['inputZIP']
     rating = request.form['inputRating']
-    record = Restaurant_whole(email, rest_name, owner_name, password, address, zipcode, rating)
+    record = RestaurantWhole(email, rest_name, owner_name, password, address, zipcode, rating)
     db.session.add(record)
     db.session.commit()
-    filtered_restaurants_admin = Restaurant_whole.query.all()
+    filtered_restaurants_admin = RestaurantWhole.query.all()
     return render_template("admin/adminrestaurant.html", restaurants=filtered_restaurants_admin)
 
 
 @app.route('/modifymenu')
 def modifymenu():
     print session['rest_id']
-    filtered_menu = Menu_item.query.filter_by(_id=session['rest_id']).all()
+    filtered_menu = MenuItem.query.filter_by(_id=session['rest_id']).all()
     return render_template("res_owner/editmenupage.html", menu=filtered_menu)
 
 
@@ -174,10 +174,10 @@ def addmenuitem():
     description = request.form['description']
     cost = request.form['cost']
     rating = random.randint(1, 5)
-    record = Menu_item(rest_id, name, description, float(cost), rating)
+    record = MenuItem(rest_id, name, description, float(cost), rating)
     db.session.add(record)
     db.session.commit()
-    filtered_menu = Menu_item.query.filter_by(res_id=rest_id).all()
+    filtered_menu = MenuItem.query.filter_by(res_id=rest_id).all()
     return render_template("res_owner/editmenupage.html", menu=filtered_menu)
 
 
@@ -189,12 +189,12 @@ def updatemenuitem():
     description = request.form['description']
     cost = request.form['cost']
     print res_id, menu_id
-    record = Menu_item.query.filter(Menu_item.res_id == res_id and Menu_item._id == menu_id).first()
+    record = MenuItem.query.filter(MenuItem.res_id == res_id and MenuItem._id == menu_id).first()
     record.name = name
     record.description = description
     record.cost = cost
     db.session.commit()
-    filtered_menu = Menu_item.query.filter_by(res_id=res_id).all()
+    filtered_menu = MenuItem.query.filter_by(res_id=res_id).all()
     return render_template("res_owner/editmenupage.html", menu=filtered_menu)
 
 
@@ -209,16 +209,16 @@ def deletemenuitem():
     record = []
     print modify_id[1]
     if modify_id[0] == "modify":
-        record = Menu_item.query.filter_by(_id=modify_id[1]).all()
+        record = MenuItem.query.filter_by(_id=modify_id[1]).all()
         return render_template("res_owner/modifymenuitempage.html", record=record)
 
     else:
-        record = Menu_item.query.filter_by(_id=modify_id[1]).all()
+        record = MenuItem.query.filter_by(_id=modify_id[1]).all()
     for rec in record:
         db.session.delete(rec)
         db.session.commit()
         db.session.close()
-    filtered_menu = Menu_item.query.filter_by(res_id=session['rest_id']).all()
+    filtered_menu = MenuItem.query.filter_by(res_id=session['rest_id']).all()
     return render_template("res_owner/editmenupage.html", menu=filtered_menu)
 
 
@@ -247,7 +247,7 @@ def login():
                     else:
                         error = 'Invalid Username/Password.'
                 elif user_type == "rest_owner":  # Restaurant owner login validation
-                    pass_real = Restaurant_whole.query.filter_by(email=email).first()
+                    pass_real = RestaurantWhole.query.filter_by(email=email).first()
                     if pass_real == None:
                         error = "Restaurant owner not found."
                     elif pass_real.password == password:
@@ -281,7 +281,7 @@ def login():
             return render_template("user/user_homepage.html", user=record.name)
         elif session['user_type'] == "rest_owner":
             rest_id = int(session['rest_id'])
-            record = Restaurant_whole.query.filter_by(_id=rest_id).first()
+            record = RestaurantWhole.query.filter_by(_id=rest_id).first()
             print record
             return render_template("res_owner/restaurant_owner_homepage.html", user=record.owner_name)
         else:
@@ -332,7 +332,7 @@ def complete_registration():
         zipcode = request.form['zipcode']
         password = request.form['password']
         rating = random.randint(0, 5)
-        record = Restaurant_whole(email, rest_name, owner_name, password, address, zipcode, rating)
+        record = RestaurantWhole(email, rest_name, owner_name, password, address, zipcode, rating)
         db.session.add(record)
         db.session.commit()
         return render_template("register/register_success.html", error=error)
@@ -364,40 +364,40 @@ def site_map():
 
 @app.route("/add_billing_address")
 def add_billing_address():
-	return render_template("address/user_billing_address.html")
+    return render_template("address/user_billing_address.html")
 
 @app.route("/process_add_billing_address", methods=['POST'])
 def complete_billing_address():
-	if session['logged_in'] and session['user_type'] == 'customer':
-		apt     = request.form["apt"]
-		line1   = request.form["line1"]
-		line2   = request.form["line2"]
-		city    = request.form["city"]
-		state   = request.form["state"]
-		zipcode = request.form['zipcode']
-		new_address = Address(line1, apt, line2, city, state, zipcode, session['user_id'])
-		db.session.add(new_address)
-		db.session.commit()
-		return render_template("address/address_add_success.html")
+    if session['logged_in'] and session['user_type'] == 'customer':
+        apt     = request.form["apt"]
+        line1   = request.form["line1"]
+        line2   = request.form["line2"]
+        city    = request.form["city"]
+        state   = request.form["state"]
+        zipcode = request.form['zipcode']
+        new_address = Address(line1, apt, line2, city, state, zipcode, session['user_id'])
+        db.session.add(new_address)
+        db.session.commit()
+        return render_template("address/address_add_success.html")
 
 @app.route("/addresses")
 def existing_addresses():
-	if session['logged_in']:
-		addresses = Address.query.filter_by(user_id=session['user_id']).all()
-		addresses_refined = [str(x).split(",") for x in addresses]
-		return render_template("address/existing_addresses.html", addresses=addresses_refined)
+    if session['logged_in']:
+        addresses = Address.query.filter_by(user_id=session['user_id']).all()
+        addresses_refined = [str(x).split(",") for x in addresses]
+        return render_template("address/existing_addresses.html", addresses=addresses_refined)
 
 @app.route("/delete_address/<id>")
 def delete_address(id):
-	db.session.delete(Address.query.get(id))
-	db.session.commit()
-	addresses = Address.query.filter_by(user_id=session['user_id']).all()
-	addresses_refined = [str(x).split(",") for x in addresses]
-	return render_template("address/existing_addresses.html", addresses=addresses_refined)
+    db.session.delete(Address.query.get(id))
+    db.session.commit()
+    addresses = Address.query.filter_by(user_id=session['user_id']).all()
+    addresses_refined = [str(x).split(",") for x in addresses]
+    return render_template("address/existing_addresses.html", addresses=addresses_refined)
 
 
 def main():
-	#ORMTests.run_all()
-	#ControllerTests.run_all(app)
-	app.debug = True
-	app.run(host='127.0.0.1')
+    ORMTests.run_all()
+    ControllerTests.run_all(app)
+    app.debug = True
+    app.run(host='127.0.0.1')

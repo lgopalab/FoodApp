@@ -1,12 +1,12 @@
-from models.restaurant_whole import Restaurant_whole
-from models.menu_item import Menu_item
-from util.database import db
+from models.restaurant_whole import RestaurantWholeTest as RestaurantWhole
+from models.menu_item import MenuItemTest as MenuItem
+from util.database import db2 as db
 
 class AddMenuTests:
 
 	@staticmethod
 	def add_menu_item_test(app):
-		res = Restaurant_whole.query.first()
+		res = RestaurantWhole.query.first()
 		with app as c:
 			credentials = {
 				"login_type": "rest_owner",
@@ -31,12 +31,12 @@ class AddMenuTests:
 			}
 
 			c.post("/addmenuitem", data=item)
-			assert len(Menu_item.query.filter_by(res_id=res._id,
+			assert len(MenuItem.query.filter_by(res_id=res._id,
 			                                     cost=item['cost'],
 			                                     description = item['description'],
 			                                     name=item["inputName"]).all()) == 1
 
-			for item in Menu_item.query.filter_by(res_id=res._id, name=item["inputName"]).all():
+			for item in MenuItem.query.filter_by(res_id=res._id, name=item["inputName"]).all():
 				db.session.delete(item)
 			db.session.commit()
 

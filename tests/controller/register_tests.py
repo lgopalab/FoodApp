@@ -1,7 +1,7 @@
 import re
-from util.database import db
-from models.customer import Customer
-from models.restaurant_whole import Restaurant_whole
+from util.database import db2 as db
+from models.customer import CustomerTest as Customer
+from models.restaurant_whole import RestaurantWholeTest as RestaurantWhole
 
 
 class RegisterTests:
@@ -53,14 +53,14 @@ class RegisterTests:
 		}
 
 		with app as c:
-			owner = Restaurant_whole.query.filter_by(email="owner@dummy.com").all()
+			owner = RestaurantWhole.query.filter_by(email="owner@dummy.com").all()
 			for dummy in owner:
 				db.session.delete(dummy)
 			db.session.commit()
 			req = c.post("/complete_registration", data=credentials)
 			assert "Registered Successfully." in req.data
 			assert req.status_code == 200
-			owner = Restaurant_whole.query.filter_by(email="owner@dummy.com").all()
+			owner = RestaurantWhole.query.filter_by(email="owner@dummy.com").all()
 			assert len(owner) > 0
 
 			print "Register on restaurant owner successful"
