@@ -5,16 +5,19 @@
 <h1>Cart Page</h1>
 <body>
  <a href="{{ url_for('search_page') }}" >Back to search</a>
- <form action="{{url_for('post_order')}}", method="post">
+ <form action="{{url_for('post_order_address')}}", method="post">
 <table>
      <div align="center" class="card blue darken-4">
  {% for item,qty,rest_name,menu_item_name,menu_item_cost in item_quantity_list %}
   <tr>
 
-      <td>{{qty}} x {{menu_item_name}} from {{rest_name}} for {{menu_item_cost}} each</td>
+      <td>{{item}} <br> {{qty}} x {{menu_item_name}} from {{rest_name}} for {{menu_item_cost}} each</td>
 
   </tr>
 {% endfor %}
+<input type="hidden" name="item_list" value="{% for item,qty,rest_name,menu_item_name,menu_item_cost in item_quantity_list %}{{item}},{% endfor %}">
+<input type="hidden" name="qty_list" value="{% for item,qty,rest_name,menu_item_name,menu_item_cost in item_quantity_list %}{{qty}},{% endfor %}">
+
 <tr>Total Order Cost is {{cost}}</tr>
 
          </div>
