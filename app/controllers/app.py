@@ -33,7 +33,6 @@ def home():
 	print "home page"
 	return render_template("home.html")
 
-
 @app.route("/search")
 def search_page():
 	return render_template("search/search.html", restaurants=[], res=False)
@@ -422,7 +421,6 @@ def delete_address(id):
 	addresses = Address.query.filter_by(user_id=session['user_id']).all()
 	addresses_refined = [str(x).split(",") for x in addresses]
 	return render_template("address/existing_addresses.html", addresses=addresses_refined)
-
 
 def main():
 	app.debug = True
