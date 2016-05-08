@@ -8,6 +8,7 @@ from flask import Flask, flash, url_for, session
 from flask import render_template
 from flask import request
 from random import randint
+from sqlalchemy import desc
 
 app_dir = os.path.abspath("..")
 sys.path.insert(0, app_dir)
@@ -17,6 +18,8 @@ from models.admin import Admin
 from models.customer import Customer
 from models.menu_item import MenuItem
 from models.address import Address
+from models.order_list import OrderList
+from models.order_details import OrderDetails
 
 from util.database import db
 
@@ -90,24 +93,39 @@ def display_cart():
     rest_name_list = []
     menu_item_name_list = []
     menu_item_cost_list = []
-    for i in session['menu_item_list']:
-        rest_id = MenuItem.query.filter_by(_id=i).first()
-        menu_item_name_list.append(rest_id.name)
-        menu_item_cost_list.append(rest_id.cost)
-        rest_name = RestaurantWhole.query.filter_by(_id=rest_id.res_id).first()
-        rest_name_list.append(rest_name.rest_name)
-    total = 0.0
-    for i,j in zip(session['quantity_list'],menu_item_cost_list):
-        total += float(j) * int(i)
-    session["order_cost"] = total
-    return render_template("user/displaycart.html",item_quantity_list=zip(session['menu_item_list'], session['quantity_list'],rest_name_list,menu_item_name_list,menu_item_cost_list),cost=session["order_cost"])
+    if 'menu_item_list' in session:
+        for i in session['menu_item_list']:
+            rest_id = MenuItem.query.filter_by(_id=i).first()
+            menu_item_name_list.append(rest_id.name)
+            menu_item_cost_list.append(rest_id.cost)
+            rest_name = RestaurantWhole.query.filter_by(_id=rest_id.res_id).first()
+            rest_name_list.append(rest_name.rest_name)
+        total = 0.0
+        for i,j in zip(session['quantity_list'],menu_item_cost_list):
+            total += float(j) * int(i)
+        session["order_cost"] = total
+        return render_template("user/displaycart.html",item_quantity_list=zip(session['menu_item_list'], session['quantity_list'],rest_name_list,menu_item_name_list,menu_item_cost_list),cost=session["order_cost"])
+    else:
+        return render_template("user/displayemptycart.html")
+
+@app.route("/post_order_address", methods=['POST'])
+def post_order_address():
+    if session['logged_in']:
+        addresses = Address.query.filter_by(user_id=session['user_id']).all()
+        return render_template("user/post_order_address.html", addresses=addresses)
 
 @app.route("/post_order", methods=['POST'])
 def post_order():
     if session['logged_in']:
+        address_id = request.form["address_id"]
+        db.session.add(OrderList(session['user_id'],address_id))
+        db.session.commit()
+        order = OrderList.query.filter_by(customer_id=session['user_id']).order_by(OrderList._id.desc()).first()
+        for i,j in zip(session['menu_item_list'],session['quantity_list']):
+            db.session.add(OrderDetails(order._id,i,j))
+            db.session.commit()
         addresses = Address.query.filter_by(user_id=session['user_id']).all()
-        addresses_refined = [str(x).split(",") for x in addresses]
-        return render_template("user/post_order_address.html", addresses=addresses_refined)
+        return render_template("user/post_order_address.html", addresses=addresses)
 
 @app.route("/search_restaurants", methods=['GET'])
 def search_restaurants():
@@ -397,7 +415,7 @@ def delete_address(id):
 
 
 def main():
-    ORMTests.run_all()
-    ControllerTests.run_all(app)
+    #ORMTests.run_all()
+    #ControllerTests.run_all(app)
     app.debug = True
     app.run(host='127.0.0.1')
