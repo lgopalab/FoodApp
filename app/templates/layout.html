@@ -35,16 +35,22 @@ body {
     margin:0 auto;
     width:1000px;
 }
+.footer {
+    background:black;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  padding: 1rem;
+  background-color: #efefef;
+  text-align: center;
+}
 
 </style>
 <body>
 
 
-        <header style="background:black">
-          <div class="black">
-            <br/>
-          </div>
-        </header>
+
 
        <div>
            <img src="{{ url_for('static', filename='logo.jpg') }}" style="float: right; width:300px; width:300px;"  />
@@ -59,7 +65,8 @@ body {
 
 
 
-        <footer style="background:black">
+        <footer style="float: bottom; background:black; position: absolute; right: 0; bottom: 0; left: 0; padding: 1rem; background-color: #efefef;
+  text-align: center;">
           <div class="black">
             <br/>
           </div>
