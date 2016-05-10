@@ -10,7 +10,7 @@ sys.path.append(dir_name2)
 sys.path.append(dir_name3)
 sys.path.append(dir_name4)
 print sys.path
-"""
+
 models = ['address', "admin", "customer", "menu_item",
           "order_details", "order_list", "restaurant_whole"]
 setups = ['setup_admin', 'setup_menu_item', 'setup_restaurants_whole', 'setup_users']
@@ -31,9 +31,4 @@ for model in setups:
     except BaseException as e:
         print model
         print e
-"""
 
-import app.models.order_details as a
-
-if __name__ == "__main__":
-  a.main()
