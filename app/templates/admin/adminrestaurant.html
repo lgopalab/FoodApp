@@ -19,6 +19,8 @@
 <div class="row" id="middle">
     <div class="col s12 m6">
         <a href="{{ url_for('addrestaurantpage') }}" >Add Restaurant</a>
+        <br>
+        <a href="/login">Home</a>
         <table>
         <form action="{{url_for('deleterestaurant')}}", method="post">
          {% for cur in restaurants %}
@@ -29,6 +31,9 @@
         {% endfor %}
         </form>
         </table>
+
 </body>
 {% endblock %}
+
+
 </html>

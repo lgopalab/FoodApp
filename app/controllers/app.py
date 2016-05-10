@@ -8,7 +8,7 @@ from flask import Flask, flash, url_for, session
 from flask import render_template
 from flask import request
 from random import randint
-from sqlalchemy import desc
+from sqlalchemy import desc,and_
 
 app_dir = os.path.abspath("..")
 sys.path.insert(0, app_dir)
@@ -124,7 +124,9 @@ def post_order():
             db.session.add(OrderDetails(order._id,i,j))
             db.session.commit()
         addresses = Address.query.filter_by(user_id=session['user_id']).all()
-        return render_template("user/post_order_address.html", addresses=addresses)
+        session['menu_item_list'] = []
+        session['quantity_list'] = []
+        return render_template("user/post_order.html", addresses=addresses)
 
 @app.route("/search_restaurants", methods=['GET'])
 def search_restaurants():
@@ -206,7 +208,7 @@ def updatemenuitem():
     description = request.form['description']
     cost = request.form['cost']
     print res_id, menu_id
-    record = MenuItem.query.filter(MenuItem.res_id == res_id and MenuItem._id == menu_id).first()
+    record = MenuItem.query.filter(and_(MenuItem.res_id == res_id, MenuItem._id == menu_id)).first()
     record.name = name
     record.description = description
     record.cost = cost

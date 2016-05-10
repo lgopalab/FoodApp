@@ -1,11 +1,11 @@
-{% extends "layout.html" %}
+{% extends "layoutuser.html" %}
 {% block content %}
     <ul style="font-family: Helvetica Neue, Helvetica, Arial, sans-serif">
         <p>Please select an address for the order to be processes.</p>
         {% for address in addresses %}
             <div class="row">
                 <div class="col s12 m6">
-                    <div class="card red darken-4">
+                    <div class="card green">
                         <div class="card-content white-text">
                             <form action="{{url_for('post_order')}}" method="POST">
                             <span class="card-title">Your {{ address.city }}, {{ address.state }} address</span>

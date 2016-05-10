@@ -1,10 +1,14 @@
-{% extends "layout.html" %}
+{% extends "layoutuser.html" %}
 {% block content %}
 <html>
 
 <h1>Cart Page</h1>
 <body>
- <a href="{{ url_for('search_page') }}" >Back to search</a>
+<a href="/login" >Home</a>
+ <br>
+<a href="{{ url_for('search_page') }}" >Back to search</a>
+
+
 
 <table>
      <div align="center" class="card blue darken-4">

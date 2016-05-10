@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>FoodBox</title>
+    <head>
+    <!--Import Google Icon Font-->
+    <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!--Import materialize.css-->
+    <link href="{{ url_for('static', filename='materialize/css/materialize.min.css') }}" rel="stylesheet"
+          type="text/css" media="screen,projection"/>
+
+    <link href="{{ url_for('static', filename='css/basic.css') }}" rel="stylesheet" type="text/css"/>
+
+    <!--Let browser know website is optimized for mobile-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+    <!--Import jQuery before materialize.js-->
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script src="{{ url_for('static', filename='materialize/js/materialize.min.js') }}" type="text/javascript"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<style>
+  main {
+    flex: 1 0 auto;
+  }
+
+.float_center {
+  float: center;
+  position: relative;
+  left: -70%; /* or right 50% */
+  text-align: left;
+}
+#wrapper {
+  width: 2000px;     /* specify a width! */
+  margin: 0 auto; /* center */
+}
+body {
+display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+    float: center;
+    margin:0% 10% 10% 10%;
+    width:80% ;
+    height: 100%;
+}
+.footer {
+    background:black;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  padding: 1rem;
+  background-color: #efefef;
+  text-align: center;
+}
+
+</style>
+
+<body>
+<nav>
+  <div class="nav-wrapper" style="background: grey;">
+    <a href="/login" class="brand-logo"><img src="{{ url_for('static', filename='logo.png') }}" style="height:65px; width:65px;"/></a>
+    <ul id="nav-mobile" class="right hide-on-med-and-down">
+      <li><a href="/login">Home</a></li>
+      <li><a href="/search">Search Restaurants</a></li>
+      <li><a href="/addresses">My Addresses</a></li>
+      <li><a href="/add_billing_address">Add Billing address</a></li>
+      <li><a href="/display_cart">Display Cart</a></li>
+      <li><a href="/logout">Sign Out</a></li>
+    </ul>
+  </div>
+</nav>
+
+
+
+
+       <div>
+           <img class="image" src="{{ url_for('static', filename='logo.png') }}" style="float: right; height:200px; width:200px;"/>
+
+            {% block content %}
+            {% endblock %}
+        </div>
+
+
+
+
+
+
+        <footer class="page-footer" style="background: grey;">
+          <div class="container">
+            <div class="row">
+              <div class="col l6 s12">
+                <h5 class="white-text">FoodBox Links</h5>
+              </div>
+              <div class="col l4 offset-l2 s12">
+                A new way of ordering food.
+              </div>
+            </div>
+          </div>
+          <div class="footer-copyright">
+            <div class="container"><center>
+            © 2016 Copyright Text
+
+            </center>></div>
+          </div>
+        </footer>
+</body>
+</html>

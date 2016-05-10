@@ -13,7 +13,7 @@
         <div align="center" style="float: center" class="col s12 m6">
 {% if error  %}<p class=error><strong>Error:</strong> {{ error }}{% endif %}
             
-            <div align="center" class="card red darken-4">
+            <div align="center" class="card red darken-2">
                 <form action="{{ url_for('login') }}" method="POST">
                     <p><input class="card grey darken-2" type="radio" name="login_type" value="customer" id="1" checked/>
                         <label style="color:gray font-weight: bold" for="1">Customer</label></p>
@@ -26,7 +26,7 @@
                     E-mail <input type="text" name="email"> <br>
                     Password <input type="password" name="password">
                     <div class="card-action">
-                        <input class="card grey darken-2" type="submit" value="Login">
+                        <input class="card grey darken-1" type="submit" value="Login">
                         <a style="color:gray" href="{{ url_for('register') }}">Register</a>
                     </div>
 
