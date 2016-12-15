@@ -1,6 +1,6 @@
 Online Food Ordering Application
-SSDI Project team #3
+
+Developed in Python using Flask Framework.
 
 Instructions to run the Server:
-
 python startup.py
